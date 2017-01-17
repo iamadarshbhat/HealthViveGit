@@ -7,70 +7,134 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C7ED5F291E2E2175005704C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F281E2E2175005704C9 /* main.m */; };
-		C7ED5F2C1E2E2175005704C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F2B1E2E2175005704C9 /* AppDelegate.m */; };
-		C7ED5F2F1E2E2175005704C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F2E1E2E2175005704C9 /* ViewController.m */; };
-		C7ED5F321E2E2175005704C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7ED5F301E2E2175005704C9 /* Main.storyboard */; };
-		C7ED5F351E2E2175005704C9 /* HealthVive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F331E2E2175005704C9 /* HealthVive.xcdatamodeld */; };
-		C7ED5F371E2E2175005704C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7ED5F361E2E2175005704C9 /* Assets.xcassets */; };
-		C7ED5F3A1E2E2175005704C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7ED5F381E2E2175005704C9 /* LaunchScreen.storyboard */; };
-		C7ED5F451E2E2175005704C9 /* HealthViveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F441E2E2175005704C9 /* HealthViveTests.m */; };
-		C7ED5F501E2E2176005704C9 /* HealthViveUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F4F1E2E2176005704C9 /* HealthViveUITests.m */; };
+		B030C0E41E27CCE300FC9605 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B030C0E31E27CCE300FC9605 /* LoginViewController.m */; };
+		B030C0E81E27D08400FC9605 /* APIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B030C0E71E27D08400FC9605 /* APIHandler.m */; };
+		B0FCCC4F1E2CD949002EDD75 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */; };
+		C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */; };
+		C73A6DBF1E24CC1B000D89EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DBE1E24CC1B000D89EE /* main.m */; };
+		C73A6DC21E24CC1B000D89EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC11E24CC1B000D89EE /* AppDelegate.m */; };
+		C73A6DC51E24CC1B000D89EE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC41E24CC1B000D89EE /* BaseViewController.m */; };
+		C73A6DC81E24CC1B000D89EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DC61E24CC1B000D89EE /* Main.storyboard */; };
+		C73A6DCB1E24CC1B000D89EE /* HealthVive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC91E24CC1B000D89EE /* HealthVive.xcdatamodeld */; };
+		C73A6DCD1E24CC1B000D89EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */; };
+		C73A6DD01E24CC1B000D89EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */; };
+		C73A6DDB1E24CC1B000D89EE /* HealthViveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DDA1E24CC1B000D89EE /* HealthViveTests.m */; };
+		C73A6DE61E24CC1B000D89EE /* HealthViveUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DE51E24CC1B000D89EE /* HealthViveUITests.m */; };
+		C73A6E0C1E24DF9A000D89EE /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DFE1E24DF94000D89EE /* SF-UI-Text-Bold.otf */; };
+		C73A6E0D1E24DFB0000D89EE /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E0A1E24DF94000D89EE /* SF-UI-Text-Ultrathin.otf */; };
+		C73A6E0E1E24DFB4000D89EE /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E0B1E24DF94000D89EE /* SF-UI-Text-UltrathinItalic.otf */; };
+		C73A6E0F1E24DFB7000D89EE /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E091E24DF94000D89EE /* SF-UI-Text-SemiboldItalic.otf */; };
+		C73A6E101E24DFBA000D89EE /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E081E24DF94000D89EE /* SF-UI-Text-Semibold.otf */; };
+		C73A6E111E24DFBD000D89EE /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E071E24DF94000D89EE /* SF-UI-Text-RegularItalic.otf */; };
+		C73A6E121E24DFC0000D89EE /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E061E24DF94000D89EE /* SF-UI-Text-Regular.otf */; };
+		C73A6E131E24DFC2000D89EE /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E051E24DF94000D89EE /* SF-UI-Text-MediumItalic.otf */; };
+		C73A6E141E24DFC5000D89EE /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E041E24DF94000D89EE /* SF-UI-Text-Medium.otf */; };
+		C73A6E151E24DFC9000D89EE /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E031E24DF94000D89EE /* SF-UI-Text-LightItalic.otf */; };
+		C73A6E161E24DFCC000D89EE /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E021E24DF94000D89EE /* SF-UI-Text-Light.otf */; };
+		C73A6E171E24DFCF000D89EE /* SF-UI-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E011E24DF94000D89EE /* SF-UI-Text-HeavyItalic.otf */; };
+		C73A6E181E24DFD2000D89EE /* SF-UI-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E001E24DF94000D89EE /* SF-UI-Text-Heavy.otf */; };
+		C73A6E191E24DFD6000D89EE /* SF-UI-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DFF1E24DF94000D89EE /* SF-UI-Text-BoldItalic.otf */; };
+		C73A6E241E24E0D9000D89EE /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E1C1E24E0D6000D89EE /* SF-UI-Display-Bold.otf */; };
+		C73A6E251E24E0DC000D89EE /* SF-UI-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E1D1E24E0D6000D89EE /* SF-UI-Display-Heavy.otf */; };
+		C73A6E261E24E0DE000D89EE /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E1E1E24E0D6000D89EE /* SF-UI-Display-Light.otf */; };
+		C73A6E271E24E0E1000D89EE /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E1F1E24E0D6000D89EE /* SF-UI-Display-Medium.otf */; };
+		C73A6E281E24E0E4000D89EE /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E201E24E0D6000D89EE /* SF-UI-Display-Regular.otf */; };
+		C73A6E291E24E0E7000D89EE /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E211E24E0D6000D89EE /* SF-UI-Display-Semibold.otf */; };
+		C73A6E2A1E24E0EA000D89EE /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E221E24E0D6000D89EE /* SF-UI-Display-Thin.otf */; };
+		C73A6E2B1E24E0EC000D89EE /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E231E24E0D6000D89EE /* SF-UI-Display-Ultralight.otf */; };
+		C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */; };
+		C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */ = {isa = PBXBuildFile; fileRef = C74C1B641E2CADCA00E2B47B /* Consumer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C7ED5F411E2E2175005704C9 /* PBXContainerItemProxy */ = {
+		C73A6DD71E24CC1B000D89EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C7ED5F1C1E2E2175005704C9 /* Project object */;
+			containerPortal = C73A6DB21E24CC1B000D89EE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C7ED5F231E2E2175005704C9;
+			remoteGlobalIDString = C73A6DB91E24CC1B000D89EE;
 			remoteInfo = HealthVive;
 		};
-		C7ED5F4C1E2E2176005704C9 /* PBXContainerItemProxy */ = {
+		C73A6DE21E24CC1B000D89EE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C7ED5F1C1E2E2175005704C9 /* Project object */;
+			containerPortal = C73A6DB21E24CC1B000D89EE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C7ED5F231E2E2175005704C9;
+			remoteGlobalIDString = C73A6DB91E24CC1B000D89EE;
 			remoteInfo = HealthVive;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C7ED5F241E2E2175005704C9 /* HealthVive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthVive.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7ED5F281E2E2175005704C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C7ED5F2A1E2E2175005704C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		C7ED5F2B1E2E2175005704C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C7ED5F2D1E2E2175005704C9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		C7ED5F2E1E2E2175005704C9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		C7ED5F311E2E2175005704C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C7ED5F341E2E2175005704C9 /* HealthVive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HealthVive.xcdatamodel; sourceTree = "<group>"; };
-		C7ED5F361E2E2175005704C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C7ED5F391E2E2175005704C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C7ED5F3B1E2E2175005704C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7ED5F401E2E2175005704C9 /* HealthViveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthViveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7ED5F441E2E2175005704C9 /* HealthViveTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthViveTests.m; sourceTree = "<group>"; };
-		C7ED5F461E2E2175005704C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C7ED5F4B1E2E2176005704C9 /* HealthViveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthViveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7ED5F4F1E2E2176005704C9 /* HealthViveUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthViveUITests.m; sourceTree = "<group>"; };
-		C7ED5F511E2E2176005704C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B030C0E21E27CCE300FC9605 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		B030C0E31E27CCE300FC9605 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		B030C0E61E27D08400FC9605 /* APIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHandler.h; sourceTree = "<group>"; };
+		B030C0E71E27D08400FC9605 /* APIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHandler.m; sourceTree = "<group>"; };
+		B0FCCC4D1E2CD949002EDD75 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		C7213E021E28CFFD00F533C8 /* RecoveryQuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoveryQuestionModel.h; sourceTree = "<group>"; };
+		C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoveryQuestionModel.m; sourceTree = "<group>"; };
+		C73A6DBA1E24CC1B000D89EE /* HealthVive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthVive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C73A6DBE1E24CC1B000D89EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C73A6DC01E24CC1B000D89EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C73A6DC11E24CC1B000D89EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C73A6DC31E24CC1B000D89EE /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		C73A6DC41E24CC1B000D89EE /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		C73A6DC71E24CC1B000D89EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C73A6DCA1E24CC1B000D89EE /* HealthVive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HealthVive.xcdatamodel; sourceTree = "<group>"; };
+		C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C73A6DCF1E24CC1B000D89EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C73A6DD11E24CC1B000D89EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C73A6DD61E24CC1B000D89EE /* HealthViveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthViveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C73A6DDA1E24CC1B000D89EE /* HealthViveTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthViveTests.m; sourceTree = "<group>"; };
+		C73A6DDC1E24CC1B000D89EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C73A6DE11E24CC1B000D89EE /* HealthViveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HealthViveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C73A6DE51E24CC1B000D89EE /* HealthViveUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HealthViveUITests.m; sourceTree = "<group>"; };
+		C73A6DE71E24CC1B000D89EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C73A6DFE1E24DF94000D89EE /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
+		C73A6DFF1E24DF94000D89EE /* SF-UI-Text-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-BoldItalic.otf"; sourceTree = "<group>"; };
+		C73A6E001E24DF94000D89EE /* SF-UI-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Heavy.otf"; sourceTree = "<group>"; };
+		C73A6E011E24DF94000D89EE /* SF-UI-Text-HeavyItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-HeavyItalic.otf"; sourceTree = "<group>"; };
+		C73A6E021E24DF94000D89EE /* SF-UI-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Light.otf"; sourceTree = "<group>"; };
+		C73A6E031E24DF94000D89EE /* SF-UI-Text-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-LightItalic.otf"; sourceTree = "<group>"; };
+		C73A6E041E24DF94000D89EE /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
+		C73A6E051E24DF94000D89EE /* SF-UI-Text-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-MediumItalic.otf"; sourceTree = "<group>"; };
+		C73A6E061E24DF94000D89EE /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
+		C73A6E071E24DF94000D89EE /* SF-UI-Text-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-RegularItalic.otf"; sourceTree = "<group>"; };
+		C73A6E081E24DF94000D89EE /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
+		C73A6E091E24DF94000D89EE /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
+		C73A6E0A1E24DF94000D89EE /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
+		C73A6E0B1E24DF94000D89EE /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
+		C73A6E1C1E24E0D6000D89EE /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		C73A6E1D1E24E0D6000D89EE /* SF-UI-Display-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Heavy.otf"; sourceTree = "<group>"; };
+		C73A6E1E1E24E0D6000D89EE /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		C73A6E1F1E24E0D6000D89EE /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		C73A6E201E24E0D6000D89EE /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		C73A6E211E24E0D6000D89EE /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		C73A6E221E24E0D6000D89EE /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
+		C73A6E231E24E0D6000D89EE /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		C73A6E311E24FC82000D89EE /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C73A6E321E24FD33000D89EE /* HealthVive-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HealthVive-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		C73A6E331E250EFF000D89EE /* RegistrationQuestionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationQuestionController.h; sourceTree = "<group>"; };
+		C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationQuestionController.m; sourceTree = "<group>"; };
+		C74C1B631E2CADCA00E2B47B /* Consumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Consumer.h; sourceTree = "<group>"; };
+		C74C1B641E2CADCA00E2B47B /* Consumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Consumer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C7ED5F211E2E2175005704C9 /* Frameworks */ = {
+		C73A6DB71E24CC1B000D89EE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F3D1E2E2175005704C9 /* Frameworks */ = {
+		C73A6DD31E24CC1B000D89EE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F481E2E2176005704C9 /* Frameworks */ = {
+		C73A6DDE1E24CC1B000D89EE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -80,79 +144,195 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C7ED5F1B1E2E2175005704C9 = {
+		B030C0DE1E27C70D00FC9605 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F261E2E2175005704C9 /* HealthVive */,
-				C7ED5F431E2E2175005704C9 /* HealthViveTests */,
-				C7ED5F4E1E2E2176005704C9 /* HealthViveUITests */,
-				C7ED5F251E2E2175005704C9 /* Products */,
+				B030C0E21E27CCE300FC9605 /* LoginViewController.h */,
+				B030C0E31E27CCE300FC9605 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		B030C0E51E27D01100FC9605 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				B030C0E61E27D08400FC9605 /* APIHandler.h */,
+				B030C0E71E27D08400FC9605 /* APIHandler.m */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		B0FCCC501E2D24AD002EDD75 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				B0FCCC4D1E2CD949002EDD75 /* ForgotPasswordViewController.h */,
+				B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */,
+			);
+			name = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		C7213DFF1E28CF0300F533C8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C7213E021E28CFFD00F533C8 /* RecoveryQuestionModel.h */,
+				C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */,
+				C74C1B631E2CADCA00E2B47B /* Consumer.h */,
+				C74C1B641E2CADCA00E2B47B /* Consumer.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C73A6DB11E24CC1B000D89EE = {
+			isa = PBXGroup;
+			children = (
+				C73A6DBC1E24CC1B000D89EE /* HealthVive */,
+				C73A6DD91E24CC1B000D89EE /* HealthViveTests */,
+				C73A6DE41E24CC1B000D89EE /* HealthViveUITests */,
+				C73A6DBB1E24CC1B000D89EE /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C7ED5F251E2E2175005704C9 /* Products */ = {
+		C73A6DBB1E24CC1B000D89EE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F241E2E2175005704C9 /* HealthVive.app */,
-				C7ED5F401E2E2175005704C9 /* HealthViveTests.xctest */,
-				C7ED5F4B1E2E2176005704C9 /* HealthViveUITests.xctest */,
+				C73A6DBA1E24CC1B000D89EE /* HealthVive.app */,
+				C73A6DD61E24CC1B000D89EE /* HealthViveTests.xctest */,
+				C73A6DE11E24CC1B000D89EE /* HealthViveUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C7ED5F261E2E2175005704C9 /* HealthVive */ = {
+		C73A6DBC1E24CC1B000D89EE /* HealthVive */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F2A1E2E2175005704C9 /* AppDelegate.h */,
-				C7ED5F2B1E2E2175005704C9 /* AppDelegate.m */,
-				C7ED5F2D1E2E2175005704C9 /* ViewController.h */,
-				C7ED5F2E1E2E2175005704C9 /* ViewController.m */,
-				C7ED5F301E2E2175005704C9 /* Main.storyboard */,
-				C7ED5F361E2E2175005704C9 /* Assets.xcassets */,
-				C7ED5F381E2E2175005704C9 /* LaunchScreen.storyboard */,
-				C7ED5F3B1E2E2175005704C9 /* Info.plist */,
-				C7ED5F331E2E2175005704C9 /* HealthVive.xcdatamodeld */,
-				C7ED5F271E2E2175005704C9 /* Supporting Files */,
+				B0FCCC501E2D24AD002EDD75 /* ForgotPassword */,
+				C7213DFF1E28CF0300F533C8 /* Model */,
+				B030C0E51E27D01100FC9605 /* Parser */,
+				B030C0DE1E27C70D00FC9605 /* Login */,
+				C73A6E321E24FD33000D89EE /* HealthVive-Prefix.pch */,
+				C73A6E301E24FBD8000D89EE /* Commons */,
+				C73A6DF41E24DBB8000D89EE /* Registration */,
+				C73A6DF81E24DE78000D89EE /* Resources */,
+				C73A6DC01E24CC1B000D89EE /* AppDelegate.h */,
+				C73A6DC11E24CC1B000D89EE /* AppDelegate.m */,
+				C73A6DC31E24CC1B000D89EE /* BaseViewController.h */,
+				C73A6DC41E24CC1B000D89EE /* BaseViewController.m */,
+				C73A6DC61E24CC1B000D89EE /* Main.storyboard */,
+				C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */,
+				C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */,
+				C73A6DD11E24CC1B000D89EE /* Info.plist */,
+				C73A6DC91E24CC1B000D89EE /* HealthVive.xcdatamodeld */,
+				C73A6DBD1E24CC1B000D89EE /* Supporting Files */,
 			);
 			path = HealthVive;
 			sourceTree = "<group>";
 		};
-		C7ED5F271E2E2175005704C9 /* Supporting Files */ = {
+		C73A6DBD1E24CC1B000D89EE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F281E2E2175005704C9 /* main.m */,
+				C73A6DBE1E24CC1B000D89EE /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C7ED5F431E2E2175005704C9 /* HealthViveTests */ = {
+		C73A6DD91E24CC1B000D89EE /* HealthViveTests */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F441E2E2175005704C9 /* HealthViveTests.m */,
-				C7ED5F461E2E2175005704C9 /* Info.plist */,
+				C73A6DDA1E24CC1B000D89EE /* HealthViveTests.m */,
+				C73A6DDC1E24CC1B000D89EE /* Info.plist */,
 			);
 			path = HealthViveTests;
 			sourceTree = "<group>";
 		};
-		C7ED5F4E1E2E2176005704C9 /* HealthViveUITests */ = {
+		C73A6DE41E24CC1B000D89EE /* HealthViveUITests */ = {
 			isa = PBXGroup;
 			children = (
-				C7ED5F4F1E2E2176005704C9 /* HealthViveUITests.m */,
-				C7ED5F511E2E2176005704C9 /* Info.plist */,
+				C73A6DE51E24CC1B000D89EE /* HealthViveUITests.m */,
+				C73A6DE71E24CC1B000D89EE /* Info.plist */,
 			);
 			path = HealthViveUITests;
+			sourceTree = "<group>";
+		};
+		C73A6DF41E24DBB8000D89EE /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6E331E250EFF000D89EE /* RegistrationQuestionController.h */,
+				C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */,
+			);
+			name = Registration;
+			sourceTree = "<group>";
+		};
+		C73A6DF81E24DE78000D89EE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6DFD1E24DF82000D89EE /* Fonts */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		C73A6DFD1E24DF82000D89EE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6E1A1E24DFF8000D89EE /* SF-UI-Text */,
+				C73A6E1B1E24E066000D89EE /* SF-UI-Display */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		C73A6E1A1E24DFF8000D89EE /* SF-UI-Text */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6DFE1E24DF94000D89EE /* SF-UI-Text-Bold.otf */,
+				C73A6DFF1E24DF94000D89EE /* SF-UI-Text-BoldItalic.otf */,
+				C73A6E001E24DF94000D89EE /* SF-UI-Text-Heavy.otf */,
+				C73A6E011E24DF94000D89EE /* SF-UI-Text-HeavyItalic.otf */,
+				C73A6E021E24DF94000D89EE /* SF-UI-Text-Light.otf */,
+				C73A6E031E24DF94000D89EE /* SF-UI-Text-LightItalic.otf */,
+				C73A6E041E24DF94000D89EE /* SF-UI-Text-Medium.otf */,
+				C73A6E051E24DF94000D89EE /* SF-UI-Text-MediumItalic.otf */,
+				C73A6E061E24DF94000D89EE /* SF-UI-Text-Regular.otf */,
+				C73A6E071E24DF94000D89EE /* SF-UI-Text-RegularItalic.otf */,
+				C73A6E081E24DF94000D89EE /* SF-UI-Text-Semibold.otf */,
+				C73A6E091E24DF94000D89EE /* SF-UI-Text-SemiboldItalic.otf */,
+				C73A6E0A1E24DF94000D89EE /* SF-UI-Text-Ultrathin.otf */,
+				C73A6E0B1E24DF94000D89EE /* SF-UI-Text-UltrathinItalic.otf */,
+			);
+			name = "SF-UI-Text";
+			sourceTree = "<group>";
+		};
+		C73A6E1B1E24E066000D89EE /* SF-UI-Display */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6E1C1E24E0D6000D89EE /* SF-UI-Display-Bold.otf */,
+				C73A6E1D1E24E0D6000D89EE /* SF-UI-Display-Heavy.otf */,
+				C73A6E1E1E24E0D6000D89EE /* SF-UI-Display-Light.otf */,
+				C73A6E1F1E24E0D6000D89EE /* SF-UI-Display-Medium.otf */,
+				C73A6E201E24E0D6000D89EE /* SF-UI-Display-Regular.otf */,
+				C73A6E211E24E0D6000D89EE /* SF-UI-Display-Semibold.otf */,
+				C73A6E221E24E0D6000D89EE /* SF-UI-Display-Thin.otf */,
+				C73A6E231E24E0D6000D89EE /* SF-UI-Display-Ultralight.otf */,
+			);
+			name = "SF-UI-Display";
+			sourceTree = "<group>";
+		};
+		C73A6E301E24FBD8000D89EE /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				C73A6E311E24FC82000D89EE /* Constants.h */,
+			);
+			name = Commons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C7ED5F231E2E2175005704C9 /* HealthVive */ = {
+		C73A6DB91E24CC1B000D89EE /* HealthVive */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7ED5F541E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthVive" */;
+			buildConfigurationList = C73A6DEA1E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthVive" */;
 			buildPhases = (
-				C7ED5F201E2E2175005704C9 /* Sources */,
-				C7ED5F211E2E2175005704C9 /* Frameworks */,
-				C7ED5F221E2E2175005704C9 /* Resources */,
+				C73A6DB61E24CC1B000D89EE /* Sources */,
+				C73A6DB71E24CC1B000D89EE /* Frameworks */,
+				C73A6DB81E24CC1B000D89EE /* Resources */,
 			);
 			buildRules = (
 			);
@@ -160,74 +340,74 @@
 			);
 			name = HealthVive;
 			productName = HealthVive;
-			productReference = C7ED5F241E2E2175005704C9 /* HealthVive.app */;
+			productReference = C73A6DBA1E24CC1B000D89EE /* HealthVive.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C7ED5F3F1E2E2175005704C9 /* HealthViveTests */ = {
+		C73A6DD51E24CC1B000D89EE /* HealthViveTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7ED5F571E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthViveTests" */;
+			buildConfigurationList = C73A6DED1E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthViveTests" */;
 			buildPhases = (
-				C7ED5F3C1E2E2175005704C9 /* Sources */,
-				C7ED5F3D1E2E2175005704C9 /* Frameworks */,
-				C7ED5F3E1E2E2175005704C9 /* Resources */,
+				C73A6DD21E24CC1B000D89EE /* Sources */,
+				C73A6DD31E24CC1B000D89EE /* Frameworks */,
+				C73A6DD41E24CC1B000D89EE /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C7ED5F421E2E2175005704C9 /* PBXTargetDependency */,
+				C73A6DD81E24CC1B000D89EE /* PBXTargetDependency */,
 			);
 			name = HealthViveTests;
 			productName = HealthViveTests;
-			productReference = C7ED5F401E2E2175005704C9 /* HealthViveTests.xctest */;
+			productReference = C73A6DD61E24CC1B000D89EE /* HealthViveTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C7ED5F4A1E2E2176005704C9 /* HealthViveUITests */ = {
+		C73A6DE01E24CC1B000D89EE /* HealthViveUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C7ED5F5A1E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthViveUITests" */;
+			buildConfigurationList = C73A6DF01E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthViveUITests" */;
 			buildPhases = (
-				C7ED5F471E2E2176005704C9 /* Sources */,
-				C7ED5F481E2E2176005704C9 /* Frameworks */,
-				C7ED5F491E2E2176005704C9 /* Resources */,
+				C73A6DDD1E24CC1B000D89EE /* Sources */,
+				C73A6DDE1E24CC1B000D89EE /* Frameworks */,
+				C73A6DDF1E24CC1B000D89EE /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C7ED5F4D1E2E2176005704C9 /* PBXTargetDependency */,
+				C73A6DE31E24CC1B000D89EE /* PBXTargetDependency */,
 			);
 			name = HealthViveUITests;
 			productName = HealthViveUITests;
-			productReference = C7ED5F4B1E2E2176005704C9 /* HealthViveUITests.xctest */;
+			productReference = C73A6DE11E24CC1B000D89EE /* HealthViveUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C7ED5F1C1E2E2175005704C9 /* Project object */ = {
+		C73A6DB21E24CC1B000D89EE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = NousInfosystems;
 				TargetAttributes = {
-					C7ED5F231E2E2175005704C9 = {
+					C73A6DB91E24CC1B000D89EE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = WL88E2Z8QG;
+						DevelopmentTeam = 8YJ3NTXVGY;
 						ProvisioningStyle = Automatic;
 					};
-					C7ED5F3F1E2E2175005704C9 = {
+					C73A6DD51E24CC1B000D89EE = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = WL88E2Z8QG;
 						ProvisioningStyle = Automatic;
-						TestTargetID = C7ED5F231E2E2175005704C9;
+						TestTargetID = C73A6DB91E24CC1B000D89EE;
 					};
-					C7ED5F4A1E2E2176005704C9 = {
+					C73A6DE01E24CC1B000D89EE = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = WL88E2Z8QG;
 						ProvisioningStyle = Automatic;
-						TestTargetID = C7ED5F231E2E2175005704C9;
+						TestTargetID = C73A6DB91E24CC1B000D89EE;
 					};
 				};
 			};
-			buildConfigurationList = C7ED5F1F1E2E2175005704C9 /* Build configuration list for PBXProject "HealthVive" */;
+			buildConfigurationList = C73A6DB51E24CC1B000D89EE /* Build configuration list for PBXProject "HealthVive" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -235,37 +415,59 @@
 				en,
 				Base,
 			);
-			mainGroup = C7ED5F1B1E2E2175005704C9;
-			productRefGroup = C7ED5F251E2E2175005704C9 /* Products */;
+			mainGroup = C73A6DB11E24CC1B000D89EE;
+			productRefGroup = C73A6DBB1E24CC1B000D89EE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C7ED5F231E2E2175005704C9 /* HealthVive */,
-				C7ED5F3F1E2E2175005704C9 /* HealthViveTests */,
-				C7ED5F4A1E2E2176005704C9 /* HealthViveUITests */,
+				C73A6DB91E24CC1B000D89EE /* HealthVive */,
+				C73A6DD51E24CC1B000D89EE /* HealthViveTests */,
+				C73A6DE01E24CC1B000D89EE /* HealthViveUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C7ED5F221E2E2175005704C9 /* Resources */ = {
+		C73A6DB81E24CC1B000D89EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ED5F3A1E2E2175005704C9 /* LaunchScreen.storyboard in Resources */,
-				C7ED5F371E2E2175005704C9 /* Assets.xcassets in Resources */,
-				C7ED5F321E2E2175005704C9 /* Main.storyboard in Resources */,
+				C73A6E291E24E0E7000D89EE /* SF-UI-Display-Semibold.otf in Resources */,
+				C73A6E161E24DFCC000D89EE /* SF-UI-Text-Light.otf in Resources */,
+				C73A6E141E24DFC5000D89EE /* SF-UI-Text-Medium.otf in Resources */,
+				C73A6E151E24DFC9000D89EE /* SF-UI-Text-LightItalic.otf in Resources */,
+				C73A6E2A1E24E0EA000D89EE /* SF-UI-Display-Thin.otf in Resources */,
+				C73A6E121E24DFC0000D89EE /* SF-UI-Text-Regular.otf in Resources */,
+				C73A6E101E24DFBA000D89EE /* SF-UI-Text-Semibold.otf in Resources */,
+				C73A6DD01E24CC1B000D89EE /* LaunchScreen.storyboard in Resources */,
+				C73A6E171E24DFCF000D89EE /* SF-UI-Text-HeavyItalic.otf in Resources */,
+				C73A6DCD1E24CC1B000D89EE /* Assets.xcassets in Resources */,
+				C73A6E281E24E0E4000D89EE /* SF-UI-Display-Regular.otf in Resources */,
+				C73A6E0C1E24DF9A000D89EE /* SF-UI-Text-Bold.otf in Resources */,
+				C73A6E271E24E0E1000D89EE /* SF-UI-Display-Medium.otf in Resources */,
+				C73A6E191E24DFD6000D89EE /* SF-UI-Text-BoldItalic.otf in Resources */,
+				C73A6E261E24E0DE000D89EE /* SF-UI-Display-Light.otf in Resources */,
+				C73A6E0E1E24DFB4000D89EE /* SF-UI-Text-UltrathinItalic.otf in Resources */,
+				C73A6E0D1E24DFB0000D89EE /* SF-UI-Text-Ultrathin.otf in Resources */,
+				C73A6E181E24DFD2000D89EE /* SF-UI-Text-Heavy.otf in Resources */,
+				C73A6E111E24DFBD000D89EE /* SF-UI-Text-RegularItalic.otf in Resources */,
+				C73A6E0F1E24DFB7000D89EE /* SF-UI-Text-SemiboldItalic.otf in Resources */,
+				C73A6DC81E24CC1B000D89EE /* Main.storyboard in Resources */,
+				C73A6E251E24E0DC000D89EE /* SF-UI-Display-Heavy.otf in Resources */,
+				C73A6E241E24E0D9000D89EE /* SF-UI-Display-Bold.otf in Resources */,
+				C73A6E2B1E24E0EC000D89EE /* SF-UI-Display-Ultralight.otf in Resources */,
+				C73A6E131E24DFC2000D89EE /* SF-UI-Text-MediumItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F3E1E2E2175005704C9 /* Resources */ = {
+		C73A6DD41E24CC1B000D89EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F491E2E2176005704C9 /* Resources */ = {
+		C73A6DDF1E24CC1B000D89EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -275,61 +477,67 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C7ED5F201E2E2175005704C9 /* Sources */ = {
+		C73A6DB61E24CC1B000D89EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ED5F2F1E2E2175005704C9 /* ViewController.m in Sources */,
-				C7ED5F2C1E2E2175005704C9 /* AppDelegate.m in Sources */,
-				C7ED5F291E2E2175005704C9 /* main.m in Sources */,
-				C7ED5F351E2E2175005704C9 /* HealthVive.xcdatamodeld in Sources */,
+				C73A6DC51E24CC1B000D89EE /* BaseViewController.m in Sources */,
+				C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */,
+				C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */,
+				C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */,
+				B030C0E41E27CCE300FC9605 /* LoginViewController.m in Sources */,
+				C73A6DC21E24CC1B000D89EE /* AppDelegate.m in Sources */,
+				C73A6DBF1E24CC1B000D89EE /* main.m in Sources */,
+				C73A6DCB1E24CC1B000D89EE /* HealthVive.xcdatamodeld in Sources */,
+				B0FCCC4F1E2CD949002EDD75 /* ForgotPasswordViewController.m in Sources */,
+				B030C0E81E27D08400FC9605 /* APIHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F3C1E2E2175005704C9 /* Sources */ = {
+		C73A6DD21E24CC1B000D89EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ED5F451E2E2175005704C9 /* HealthViveTests.m in Sources */,
+				C73A6DDB1E24CC1B000D89EE /* HealthViveTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C7ED5F471E2E2176005704C9 /* Sources */ = {
+		C73A6DDD1E24CC1B000D89EE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7ED5F501E2E2176005704C9 /* HealthViveUITests.m in Sources */,
+				C73A6DE61E24CC1B000D89EE /* HealthViveUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C7ED5F421E2E2175005704C9 /* PBXTargetDependency */ = {
+		C73A6DD81E24CC1B000D89EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C7ED5F231E2E2175005704C9 /* HealthVive */;
-			targetProxy = C7ED5F411E2E2175005704C9 /* PBXContainerItemProxy */;
+			target = C73A6DB91E24CC1B000D89EE /* HealthVive */;
+			targetProxy = C73A6DD71E24CC1B000D89EE /* PBXContainerItemProxy */;
 		};
-		C7ED5F4D1E2E2176005704C9 /* PBXTargetDependency */ = {
+		C73A6DE31E24CC1B000D89EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C7ED5F231E2E2175005704C9 /* HealthVive */;
-			targetProxy = C7ED5F4C1E2E2176005704C9 /* PBXContainerItemProxy */;
+			target = C73A6DB91E24CC1B000D89EE /* HealthVive */;
+			targetProxy = C73A6DE21E24CC1B000D89EE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C7ED5F301E2E2175005704C9 /* Main.storyboard */ = {
+		C73A6DC61E24CC1B000D89EE /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C7ED5F311E2E2175005704C9 /* Base */,
+				C73A6DC71E24CC1B000D89EE /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		C7ED5F381E2E2175005704C9 /* LaunchScreen.storyboard */ = {
+		C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C7ED5F391E2E2175005704C9 /* Base */,
+				C73A6DCF1E24CC1B000D89EE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -337,7 +545,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		C7ED5F521E2E2176005704C9 /* Debug */ = {
+		C73A6DE81E24CC1B000D89EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -384,7 +592,7 @@
 			};
 			name = Debug;
 		};
-		C7ED5F531E2E2176005704C9 /* Release */ = {
+		C73A6DE91E24CC1B000D89EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -425,31 +633,45 @@
 			};
 			name = Release;
 		};
-		C7ED5F551E2E2176005704C9 /* Debug */ = {
+		C73A6DEB1E24CC1B000D89EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WL88E2Z8QG;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HealthVive-Prefix.pch";
 				INFOPLIST_FILE = HealthVive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive.HealthVive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
-		C7ED5F561E2E2176005704C9 /* Release */ = {
+		C73A6DEC1E24CC1B000D89EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WL88E2Z8QG;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HealthVive-Prefix.pch";
 				INFOPLIST_FILE = HealthVive/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive.HealthVive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
-		C7ED5F581E2E2176005704C9 /* Debug */ = {
+		C73A6DEE1E24CC1B000D89EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -462,7 +684,7 @@
 			};
 			name = Debug;
 		};
-		C7ED5F591E2E2176005704C9 /* Release */ = {
+		C73A6DEF1E24CC1B000D89EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,7 +697,7 @@
 			};
 			name = Release;
 		};
-		C7ED5F5B1E2E2176005704C9 /* Debug */ = {
+		C73A6DF11E24CC1B000D89EE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = WL88E2Z8QG;
@@ -487,7 +709,7 @@
 			};
 			name = Debug;
 		};
-		C7ED5F5C1E2E2176005704C9 /* Release */ = {
+		C73A6DF21E24CC1B000D89EE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = WL88E2Z8QG;
@@ -502,53 +724,56 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C7ED5F1F1E2E2175005704C9 /* Build configuration list for PBXProject "HealthVive" */ = {
+		C73A6DB51E24CC1B000D89EE /* Build configuration list for PBXProject "HealthVive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C7ED5F521E2E2176005704C9 /* Debug */,
-				C7ED5F531E2E2176005704C9 /* Release */,
+				C73A6DE81E24CC1B000D89EE /* Debug */,
+				C73A6DE91E24CC1B000D89EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C7ED5F541E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthVive" */ = {
+		C73A6DEA1E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthVive" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C7ED5F551E2E2176005704C9 /* Debug */,
-				C7ED5F561E2E2176005704C9 /* Release */,
+				C73A6DEB1E24CC1B000D89EE /* Debug */,
+				C73A6DEC1E24CC1B000D89EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		C7ED5F571E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthViveTests" */ = {
+		C73A6DED1E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthViveTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C7ED5F581E2E2176005704C9 /* Debug */,
-				C7ED5F591E2E2176005704C9 /* Release */,
+				C73A6DEE1E24CC1B000D89EE /* Debug */,
+				C73A6DEF1E24CC1B000D89EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		C7ED5F5A1E2E2176005704C9 /* Build configuration list for PBXNativeTarget "HealthViveUITests" */ = {
+		C73A6DF01E24CC1B000D89EE /* Build configuration list for PBXNativeTarget "HealthViveUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C7ED5F5B1E2E2176005704C9 /* Debug */,
-				C7ED5F5C1E2E2176005704C9 /* Release */,
+				C73A6DF11E24CC1B000D89EE /* Debug */,
+				C73A6DF21E24CC1B000D89EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		C7ED5F331E2E2175005704C9 /* HealthVive.xcdatamodeld */ = {
+		C73A6DC91E24CC1B000D89EE /* HealthVive.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				C7ED5F341E2E2175005704C9 /* HealthVive.xcdatamodel */,
+				C73A6DCA1E24CC1B000D89EE /* HealthVive.xcdatamodel */,
 			);
-			currentVersion = C7ED5F341E2E2175005704C9 /* HealthVive.xcdatamodel */;
+			currentVersion = C73A6DCA1E24CC1B000D89EE /* HealthVive.xcdatamodel */;
 			path = HealthVive.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
 /* End XCVersionGroup section */
 	};
-	rootObject = C7ED5F1C1E2E2175005704C9 /* Project object */;
+	rootObject = C73A6DB21E24CC1B000D89EE /* Project object */;
 }

@@ -1,0 +1,19 @@
+//
+//  HealthVive_Prefix.pch
+//  HealthVive
+//
+//  Created by Adarsha on 10/01/17.
+//  Copyright © 2017 NousInfosystems. All rights reserved.
+//
+
+#ifndef HealthVive_Prefix_pch
+#define HealthVive_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "Constants.h"
+#import "BaseViewController.h"
+#import "APIHandler.h"
+#endif /* HealthVive_Prefix_pch */
