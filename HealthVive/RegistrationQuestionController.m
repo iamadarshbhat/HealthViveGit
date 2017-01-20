@@ -10,13 +10,13 @@
 #import "RecoveryQuestionModel.h"
 #import "Consumer.h"
 
+#import "RegistrationEssentialController.h"
+
 @interface RegistrationQuestionController (){
     UITextField *activeField;
     UIButton *activieButton;
-    NSMutableArray *questionsArray;
-    NSMutableArray *filteredQuestions;
-    RecoveryQuestionModel *selectedRecoveryModel;
     
+    RecoveryQuestionModel *selectedRecoveryModel;
     RecoveryQuestionModel *selectedRecoVeryOne;
     RecoveryQuestionModel *selectedRecoveryTwo;
     RecoveryQuestionModel *selectedRecoveryThree;
@@ -39,8 +39,10 @@
 @synthesize txtAnswerOne;
 @synthesize txtAnswerTwo;
 @synthesize txtAnswerThree;
-@synthesize emailStr;
-@synthesize passwordStr;
+@synthesize questionsArray;
+@synthesize filteredQuestions;
+@synthesize groupOptionsArray;
+@synthesize consumerToRegister;
 
 
 
@@ -48,7 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    [self getAllRecoveryQuestions];
     
     [super setScrollView:scrollView andTextField:activeField];
     [super setTableView:questionsTableView andTableViewCell:nil withIdentifier:questionTableCellIdentifier andData:questionsArray];
@@ -56,16 +57,10 @@
     
     
     UIImage *image = [UIImage imageNamed:nextArrow];
-    btnQuestionOne.imageEdgeInsets = UIEdgeInsetsMake(0., self.btnRegister.frame.size.width - (image.size.width)-30, 0., 0.);
-    btnQuestionOne.titleEdgeInsets = UIEdgeInsetsMake(0.,-20., 0., 30.);
-   
-    btnQuestionTwo.imageEdgeInsets = UIEdgeInsetsMake(0., self.btnRegister.frame.size.width - (image.size.width)-30, 0., 0.);
-    btnQuestionTwo.titleEdgeInsets = UIEdgeInsetsMake(0.,-20., 0., 30.);
-    
-    btnQuestionthree.imageEdgeInsets = UIEdgeInsetsMake(0., self.btnRegister.frame.size.width - (image.size.width)-30, 0., 0.);
-    btnQuestionthree.titleEdgeInsets = UIEdgeInsetsMake(0., -20., 0., 30.);
-    
-    
+    [self setImageAndTextInsetsToButton:btnQuestionOne andImage:image withLeftSpace:30];
+    [self setImageAndTextInsetsToButton:btnQuestionTwo andImage:image withLeftSpace:30];
+    [self setImageAndTextInsetsToButton:btnQuestionthree andImage:image withLeftSpace:30];
+
     
     [btnQuestionOne setTag:question1Tag];
     [btnQuestionTwo setTag:question2Tag];
@@ -292,37 +287,26 @@
 // Onclick of Register Button
 - (IBAction)registerAction:(id)sender {
     
-    if ([self validateForm]) {
-        [self registerConsumer];
+   if ([self validateForm]) {
+      [self registerConsumer];
+       RegistrationEssentialController *registerVC =[self.storyboard instantiateViewControllerWithIdentifier:RegistrationEssentialControllerId];
+       registerVC.consumerToRegister = consumerToRegister;
+       
+       [self.navigationController pushViewController:registerVC animated:NO];
     }
-}
-
-
-
-
-//Gets all the recovery Questions from API
--(void)getAllRecoveryQuestions{
-    APIHandler *reqHandler =[[APIHandler alloc]init];
-    questionsArray = [[NSMutableArray alloc] init];
     
-    [reqHandler makeRequest:nil serverUrl:httpGetAllRecoveryQuestions completion:^(NSDictionary *result, NSError *error) {
-        if (error == nil) {
-            
-            NSArray *resultArray = [result objectForKey:httpResult];
-            for (NSDictionary *dict in resultArray) {
-                RecoveryQuestionModel *recoveryModel = [[RecoveryQuestionModel alloc] init];
-                [recoveryModel setQuestion:[dict objectForKey:httpRecoveryQuestion]];
-                [recoveryModel setQuestionId:[[dict objectForKey:httprecoveryQuestionId] integerValue]];
-                [questionsArray addObject:recoveryModel];
-                
-            }
-            filteredQuestions = [[NSMutableArray alloc] initWithArray:questionsArray];
-            NSLog(@"result-%@",filteredQuestions);
-        }
-        
-    }];
-
+    
+    
 }
+
+- (IBAction)backButtonAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
+
+
 
 //Validates the answer screen
 -(BOOL)validateForm{
@@ -330,15 +314,15 @@
     NSString *answerTwo = [self getTrimmedStringForString:txtAnswerTwo.text];
     NSString *answerThree = [self getTrimmedStringForString:txtAnswerThree.text];
     if(answerOne.length < recoveryAnswerMinLength){
-        [self showAlertWithTitle:alert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
+        [self showAlertWithTitle:errorAlert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
         [txtAnswerOne becomeFirstResponder];
         return false;
     }else if (answerTwo.length < recoveryAnswerMinLength){
-        [self showAlertWithTitle:alert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
+        [self showAlertWithTitle:errorAlert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
         [txtAnswerTwo becomeFirstResponder];
         return false;
     }else if (answerThree.length < recoveryAnswerMinLength){
-        [self showAlertWithTitle:alert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
+        [self showAlertWithTitle:errorAlert andMessage:recoveryAnswerErrorMessage andActionTitle:ok actionHandler:nil];
         [txtAnswerThree becomeFirstResponder];
         return false;
     }else{
@@ -349,74 +333,12 @@
 
 //Calls web API to post all data
 -(void)registerConsumer{
-    Consumer *consumer = [[Consumer alloc] init];
-    consumer.emailId = emailStr;
-    consumer.password = passwordStr;
+   
     [selectedRecoVeryOne setAnswer:txtAnswerOne.text];
     [selectedRecoveryTwo setAnswer:txtAnswerTwo.text];
     [selectedRecoveryThree setAnswer:txtAnswerThree.text];
-    
-    
-    
-    
     NSMutableArray *questionAnserList =  [[NSMutableArray alloc] initWithObjects:[selectedRecoVeryOne getRecoveryQuestionModel:selectedRecoVeryOne],[selectedRecoveryTwo getRecoveryQuestionModel:selectedRecoveryTwo],[selectedRecoveryThree getRecoveryQuestionModel:selectedRecoveryThree], nil];
-    consumer.recoveryQuestionsList = questionAnserList;
-    
-    
-    //Prepare JSON
-    
-    
-    NSError *writeError = nil;
-    
-    NSDictionary * dict = [consumer consumerDic:consumer];
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
-    NSLog(@"%@",writeError);
-    
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"%@",jsonString);
-    
-    
-    
-    //NSString *paramString =[NSString stringWithFormat:@"username=%@&password=%@&grant_type=%@",self.emailTxtField.text,self.passwordTxtField.text,@"password"];
-    APIHandler *reqHandler =[[APIHandler alloc] init];
-    
-    [reqHandler makeRequestByPost:jsonString  serverUrl:httpRegisterConsumer completion:^(NSDictionary *result, NSError *error) {
-        
-        if ( error == nil) {
-            NSLog(@"result -%@",result);
-         
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self showAlertWithTitle:statusStr andMessage:successfullRegisterMsg andActionTitle:ok actionHandler:nil];
-                
-            });
-            
-            
-        }
-        else
-        {
-            
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSDictionary *errorObj =[error valueForKey:@"Error"];
-               
-                NSString *errorDescription = [errorObj valueForKey:@"error_description"];
-                 NSLog(@"errorDescription ....%@",errorDescription);
-                if (errorDescription == nil || [errorDescription isEqualToString:@""]) {
-                    errorDescription = internalError;
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showAlertWithTitle:statusStr andMessage:errorDescription andActionTitle:ok actionHandler:nil];
-                    
-                });
-                
-            });
-            
-            
-        }
-        
-    }];  
-}
+    consumerToRegister.recoveryQuestionsList = questionAnserList;
+   }
 
 @end

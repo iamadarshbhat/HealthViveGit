@@ -29,6 +29,8 @@
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
         
+        
+        NSLog(@"http Response : %@",httpResponse);
         int statusCode = (int)[httpResponse statusCode];
         
         if ( statusCode == 200) {
@@ -50,6 +52,7 @@
         }
         else
         {
+            completion(nil,error);
             NSLog(@"Please check the server connection");
         }
 
@@ -114,8 +117,8 @@
         }
         else
         {
-      id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            
+            //To show the error msgs when user removed or deactivated or suspended
+            id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             completion(nil,dictionary);
         }
         

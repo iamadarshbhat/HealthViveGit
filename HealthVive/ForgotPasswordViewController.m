@@ -8,12 +8,13 @@
 
 #import "ForgotPasswordViewController.h"
 #import "Constants.h"
+#import "APIHandler.h"
 
 @interface ForgotPasswordViewController ()
 {
     
     CGFloat   screenHeight;
-
+    
 }
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textFieldHeightConstraint;
 
@@ -25,11 +26,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     
     self.navigationController.navigationBar.hidden =NO;
     self.navigationItem.title = @"Forgot Password";
-   // self.navigationItem.hidesBackButton = YES;
+    // self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
     self.navigationController.navigationBar.translucent = NO;
@@ -38,7 +39,7 @@
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     screenHeight = screenRect.size.height;
-
+    
     
     
     UIImage*menuIcon = [UIImage imageNamed:@"backButton"];
@@ -59,11 +60,11 @@
     _emailTextField.leftView = paddingView1;
     _emailTextField.leftViewMode = UITextFieldViewModeAlways;
     
-
+    
     
     [self applyColorToPlaceHolderText:self.emailTextField];
-
-
+    
+    
     
 }
 
@@ -78,48 +79,92 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)resetPasswordClicked:(id)sender {
     
     if (_emailTextField.text.length>0) {
         
-    if ([self IsValidEmail:self.emailTextField.text]) {
+        if ([self IsValidEmail:self.emailTextField.text]) {
             
-        [self showAlertWithTitle:alert andMessage:@"A reset password link has been sent to your email" andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+            NSError *writeError = nil;
+            
+            NSDictionary * dict = [[NSDictionary alloc] initWithObjectsAndKeys:self.emailTextField.text,@"emailID",nil];
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
+            NSLog(@"%@",writeError);
+            
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            
+            NSLog(@"%@",jsonString);
             
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            APIHandler *reqHandler =[[APIHandler alloc]init];
+            [reqHandler makeRequestByPost:jsonString serverUrl:ForgotPassword completion:^(NSDictionary *result, NSError *error) {
                 
-                _emailTextField.text = nil;
-            });
-
+                if (error == nil) {
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self showAlertWithTitle:thanks andMessage:resetPasswordLink andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                            
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                _emailTextField.text = nil;
+                            });
+                            
+                            
+                        }];
+                        
+                        
+                        
+                    });
+                    
+                }
+                else{
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                            _emailTextField.text = nil;
+                            
+                        }];
+                        
+                        
+                    });
+                    
+                    
+                }
+                
+                
+            }];
             
-        }];
-    
         }
-    else{
+        else{
+            
+            [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                _emailTextField.text = nil;
+                
+            }];
+            
+            
+        }
         
-         [self showAlertWithTitle:alert andMessage:@"Invalid Email ID" andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-             _emailTextField.text = nil;
-             
-         }];
-    }
-        
     }
     else{
-        [self showAlertWithTitle:alert andMessage:@"Please enter valid email ID" andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:invalidEmailIdAlert  andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
             _emailTextField.text = nil;
             
         }];
-
+        
     }
     
 }
@@ -137,12 +182,12 @@
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-   
+    
     if (screenHeight == 568) {
         _textFieldHeightConstraint.constant = 140;
         
     }
-
+    
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -151,6 +196,6 @@
         
     }
     [_emailTextField resignFirstResponder];
-
+    
 }
 @end

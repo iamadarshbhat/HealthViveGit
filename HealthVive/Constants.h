@@ -12,10 +12,15 @@
 
 //Image names
 #define userImage @"username"
-#define passwordImage @"next-arrow"
+#define passwordImage @"password"
 #define infoIconImage @"info"
 #define nextArrow @"next-arrow"
+#define dropDown @"dropdown"
+#define datePickerImage @"datePicker"
 
+//RegistrationController
+#define selectGroupOptional @"Select group (optional)"
+#define maximumYear 16
 
 
 //Label texts
@@ -23,20 +28,39 @@
 
 // TableviewCell Identifiers
 #define questionTableCellIdentifier @"questionTableCellIdentifier"
+#define groupOptionTableCellIdentifier @"groupOptionTableIdentier"
+#define titleTableIdentifer @"titleTableIdentifer"
+
+//Table Row Heights
+#define groupTableHeight 60
 
 //Button names
 #define recoveryQuestion1 @"Select Question 1"
 #define recoveryQuestion2 @"Select Question 2"
 #define recoveryQuestion3 @"Select Question 3"
 
+#define buttonTitleStr @"Title"
+#define buttonSelectDateStr @"Select Date (Minimum age 16 years)"
+
 #define recoveryBtnEnableMinLength 1
 #define recoveryAnswerMinLength 4
-#define recoveryAnswerMaxLength 25
+#define recoveryAnswerMaxLength 50
+
+#define forNameMininmumLength 2
+#define sirNameMininmumLength 2
+#define foreNameMaximumLength 25
+#define surNameMaximumLength 30
+
+
 
 //Button Ids
 #define question1Tag 1
 #define question2Tag 2
 #define question3Tag 3
+
+//StoryBoard IDs
+
+#define RegistrationEssentialControllerId @"RegistrationEssentialController"
 
 //NavBarColor
 #define NAVBAR_BCG_COLOR [UIColor colorWithRed:233/255.0 green:52/255.0 blue:52/255.0 alpha:1.0]
@@ -53,33 +77,55 @@
 #define httpRecoveryQuestion @"Question"
 #define httpIsActive @"IsActive"
 #define httprecoveryQuestionId @"ID"
+#define httpGroupIdkey @"ID"
+#define httpGroupNameKey @"GroupName"
+
+#define httpResultMemberGroupList @"MemberGroupList"
+#define httpResultRecoveryQuestionList @"RecoveryQuestionList"
 
 //Error Messages
 #define invalidEmail @"Invalid email. Please enter a valid email address"
 #define emptyLoginPassword @"Please Enter the valid password"
 #define emptyLoginEmail @"Please Enter the valid email address"
-#define invalidRegistrationPassword @"Invalid password.Please ensure that: -it has between 8 and 20 characters. Your password must include at least: 1 upper case, 1 lower case, 1 number and one special character"
-#define alert @"ALERT"
+#define invalidRegistrationPassword @"Please ensure that: It has between 8 and 20 characters. Your password must include at least: 1 upper case, 1 lower case, 1 number and one special character."
+//#define alert @"ALERT"
+#define errorAlert @"Error"
+#define invalidPasswordAlert @"Invalid Passwrod!"
+#define invalidEmailIdAlert @"Invalid Email Id!"
+#define forgotPassEmailAlert @"Invalid Email Id."
+#define thanks @"Thanks!"
+
 #define ok @"OK"
 #define statusStr @"Status"
-#define successfullRegisterMsg @"User Registered successfully!"
+#define successfullRegisterMsg @"Thank you for submitting your HealthVive account registration and basic profile for approval. Once approved, we will send you an activation email, which may take up to 24 hours to arrive. Please note that you will need to provide more information to use additional features, premium services, or to enable health professionals to advise and assist you."
+
 #define recoveryAnswerErrorMessage @"Answers to security questions are between 4 and 25 characters long"
 #define internalError @"Internal error please try after some time"
 
+#define passwordInfo @"Please ensure that your password should be between 8 and 20 characters.\nIt must include at least : \n1 upper case \n1 lower case \n1 number \none special character."
+#define resetPasswordLink @"A reset password link has been sent to your email."
 
 //Web URLS
 //#define httpGetAllRecoveryQuestions @"http://NIBC1720/HealthViveService//api/account/GetAllRecoveryQuestions"
 
 #define LoginAuthentication @"http://192.168.18.23/HealthViveService//Authenticate"
-#define httpGetAllRecoveryQuestions @"http://192.168.18.23/HealthViveService/api/account/GetAllRecoveryQuestions"
+#define ForgotPassword @"http://192.168.18.23/HealthViveService/api/account/ForgotPassword"
+#define httpGetAllRecoveryQuestions @"http://192.168.18.23/HealthViveService/api/account/GetRegistrationMasterData"
 #define httpRegisterConsumer @"http://192.168.18.23/HealthViveService/api/account/RegisterConsumer"
-
+#define ForgotPassword @"http://192.168.18.23/HealthViveService/api/account/ForgotPassword"
 
 //Consumer Model keys
 #define consumerIDKey @"ConsumerID"
 #define emailIDKey @"EmailID"
 #define passwordKey @"Password"
+#define memberGroupIdKey @"MemberGroupID"
 #define recoveryListKey @"RecoveryQuestionList"
+#define titleKey @"Title"
+#define foreNameKey @"ForeName"
+#define surNameKey @"LastName"
+#define genderKey @"Gender"
+#define dobKey @"DateOfBirth"
+
 
 //Recovery Question Model
 #define questionIDKey @"QuestionID"

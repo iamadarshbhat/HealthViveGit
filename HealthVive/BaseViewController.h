@@ -30,13 +30,19 @@
 
 -(void)startFade:(UIView *)view;
 -(void)startfadOut:(UIView *)view;
+
+
 -(BOOL)IsValidEmail:(NSString *)checkString;
+-(void)setImageAndTextInsetsToButton:(UIButton *)btn andImage:(UIImage *) image withLeftSpace:(CGFloat)space;
+-(void)setImageInsetsToButton:(UIButton *)btn andImage:(UIImage *)image;
+-(void)setLeftImageForTextField:(UITextField *)textField withImage:(UIImage *)image;
+-(void)addPopupView:(UIView *)view;
+-(void)removePopupView:(UIView *) view;
+-(void)setTintColor:(UIColor*)color toButton:(UIButton *)btn;
+-(void)setAlpha:(CGFloat)alpha toBtn:(UIButton*)button;
+-(NSString *)getDateString:(NSDate*)date withFormat:(NSString*)formatString;
 
 -(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)msg andActionTitle:(NSString*)actionTitle actionHandler:(void (^ __nullable)(UIAlertAction *action))handler;
-
-
-
-
 
 
 @end

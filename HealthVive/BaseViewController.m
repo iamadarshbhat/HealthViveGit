@@ -8,7 +8,9 @@
 
 #import "BaseViewController.h"
 
-@interface BaseViewController ()
+@interface BaseViewController (){
+    UIView *blurredView;
+}
    
 
 @end
@@ -198,5 +200,53 @@
     return [emailTest evaluateWithObject:checkString];
 }
 
+//Gives the image and text insets
+-(void)setImageAndTextInsetsToButton:(UIButton *)btn andImage:(UIImage *) image withLeftSpace:(CGFloat)space{
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
+    btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., space);
+    
+    }
+-(void) setImageInsetsToButton:(UIButton *)btn andImage:(UIImage *)image{
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0., 0., 0., (-btn.frame.size.width +image.size.width));
+    
+}
+
+//Sets the image to the text field
+-(void)setLeftImageForTextField:(UITextField *)textField withImage:(UIImage *)image{
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    UIView *leftTextView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, image.size.width+10, image.size.height)];
+    [leftTextView addSubview:[[UIImageView alloc] initWithImage:image]];
+    textField.leftView = leftTextView;
+}
+
+-(void)addPopupView:(UIView *)view{
+    view.hidden = false;
+    blurredView = [[UIView alloc] initWithFrame:self.view.frame];
+    [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
+   
+    [self.view addSubview:blurredView];
+    [self.view bringSubviewToFront:view];
+}
+-(void)removePopupView:(UIView *)view{
+    view.hidden = true;
+    [self.view sendSubviewToBack:view];
+    [blurredView removeFromSuperview];
+}
+-(void)setTintColor:(UIColor*)color toButton:(UIButton *)btn{
+    [btn setTintColor:color];
+}
+
+-(void)setAlpha:(CGFloat)alpha toBtn:(UIButton*)button{
+    [button setAlpha:alpha];
+}
+
+
+//Gives the date string with the given format
+-(NSString*)getDateString:(NSDate *)date withFormat:(NSString *)formatString{
+    NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
+    dateFormat.dateStyle=NSDateFormatterMediumStyle;
+    [dateFormat setDateFormat:formatString];
+    return  [NSString stringWithFormat:@"%@",[dateFormat  stringFromDate:date]];
+}
 
 @end

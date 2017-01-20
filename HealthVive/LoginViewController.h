@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 @interface LoginViewController : BaseViewController
 
@@ -15,18 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTxtField;
 
 
-@property (weak, nonatomic) IBOutlet UIView *loginHeightConstraint;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *usrImgConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelConatraint;
-
-
-//imageView
-@property (weak, nonatomic) IBOutlet UIImageView *nextimage;
-
 //Buttons
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *infoBtn;
 @property (weak, nonatomic) IBOutlet UIButton *forgotBtn;
 
 

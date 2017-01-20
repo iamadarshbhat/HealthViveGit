@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Consumer.h"
 
 
 @interface RegistrationQuestionController : BaseViewController
@@ -29,9 +29,12 @@
 @property (weak, nonatomic) IBOutlet UITableView *questionsTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerAlignedConstrant;
 
+@property Consumer *consumerToRegister;
+
 @property NSDictionary *answerResults;
-@property NSString *emailStr;
-@property NSString *passwordStr;
+@property  NSMutableArray *questionsArray;
+@property NSMutableArray *groupOptionsArray;
+@property NSMutableArray *filteredQuestions;
 
 
 - (IBAction)questionOneBtnAction:(id)sender;
@@ -40,6 +43,7 @@
 
 - (IBAction)registerAction:(id)sender;
 
+- (IBAction)backButtonAction:(id)sender;
 
 
 

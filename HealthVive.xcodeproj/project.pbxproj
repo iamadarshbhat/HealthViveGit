@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		B030C0E41E27CCE300FC9605 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B030C0E31E27CCE300FC9605 /* LoginViewController.m */; };
 		B030C0E81E27D08400FC9605 /* APIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B030C0E71E27D08400FC9605 /* APIHandler.m */; };
+		B08E066A1E30A43F004AAD3F /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B08E06691E30A43F004AAD3F /* CoreDataManager.m */; };
+		B08E066D1E30C07C004AAD3F /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = B08E066C1E30C07C004AAD3F /* Profile.m */; };
+		B0F076EA1E2F87A50015E478 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F076E91E2F87A50015E478 /* Account.m */; };
+		B0F076EC1E2F9E0D0015E478 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0F076EB1E2F9E0D0015E478 /* Main.storyboard */; };
 		B0FCCC4F1E2CD949002EDD75 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */; };
+		C710DF591E2FA873006C9A8B /* MemberGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C710DF581E2FA873006C9A8B /* MemberGroupModel.m */; };
 		C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */; };
+		C72F4A911E30D0A8004B4E10 /* RegistrationEssentialController.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F4A901E30D0A8004B4E10 /* RegistrationEssentialController.m */; };
 		C73A6DBF1E24CC1B000D89EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DBE1E24CC1B000D89EE /* main.m */; };
 		C73A6DC21E24CC1B000D89EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC11E24CC1B000D89EE /* AppDelegate.m */; };
 		C73A6DC51E24CC1B000D89EE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC41E24CC1B000D89EE /* BaseViewController.m */; };
-		C73A6DC81E24CC1B000D89EE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DC61E24CC1B000D89EE /* Main.storyboard */; };
 		C73A6DCB1E24CC1B000D89EE /* HealthVive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C73A6DC91E24CC1B000D89EE /* HealthVive.xcdatamodeld */; };
 		C73A6DCD1E24CC1B000D89EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */; };
 		C73A6DD01E24CC1B000D89EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */; };
@@ -44,6 +49,7 @@
 		C73A6E2B1E24E0EC000D89EE /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C73A6E231E24E0D6000D89EE /* SF-UI-Display-Ultralight.otf */; };
 		C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */; };
 		C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */ = {isa = PBXBuildFile; fileRef = C74C1B641E2CADCA00E2B47B /* Consumer.m */; };
+		C7ED5F5F1E2E23B5005704C9 /* RegistrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,17 +74,28 @@
 		B030C0E31E27CCE300FC9605 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		B030C0E61E27D08400FC9605 /* APIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHandler.h; sourceTree = "<group>"; };
 		B030C0E71E27D08400FC9605 /* APIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHandler.m; sourceTree = "<group>"; };
+		B08E06681E30A43F004AAD3F /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
+		B08E06691E30A43F004AAD3F /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
+		B08E066B1E30C07C004AAD3F /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		B08E066C1E30C07C004AAD3F /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		B0F076E81E2F87A50015E478 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
+		B0F076E91E2F87A50015E478 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
+		B0F076EB1E2F9E0D0015E478 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B0F076EE1E2FB7380015E478 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B0FCCC4D1E2CD949002EDD75 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		C710DF571E2FA873006C9A8B /* MemberGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberGroupModel.h; sourceTree = "<group>"; };
+		C710DF581E2FA873006C9A8B /* MemberGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberGroupModel.m; sourceTree = "<group>"; };
 		C7213E021E28CFFD00F533C8 /* RecoveryQuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoveryQuestionModel.h; sourceTree = "<group>"; };
 		C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoveryQuestionModel.m; sourceTree = "<group>"; };
+		C72F4A8F1E30D0A8004B4E10 /* RegistrationEssentialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationEssentialController.h; sourceTree = "<group>"; };
+		C72F4A901E30D0A8004B4E10 /* RegistrationEssentialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationEssentialController.m; sourceTree = "<group>"; };
 		C73A6DBA1E24CC1B000D89EE /* HealthVive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthVive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C73A6DBE1E24CC1B000D89EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C73A6DC01E24CC1B000D89EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C73A6DC11E24CC1B000D89EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C73A6DC31E24CC1B000D89EE /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C73A6DC41E24CC1B000D89EE /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		C73A6DC71E24CC1B000D89EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C73A6DCA1E24CC1B000D89EE /* HealthVive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HealthVive.xcdatamodel; sourceTree = "<group>"; };
 		C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C73A6DCF1E24CC1B000D89EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -117,6 +134,8 @@
 		C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationQuestionController.m; sourceTree = "<group>"; };
 		C74C1B631E2CADCA00E2B47B /* Consumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Consumer.h; sourceTree = "<group>"; };
 		C74C1B641E2CADCA00E2B47B /* Consumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Consumer.m; sourceTree = "<group>"; };
+		C7ED5F5D1E2E23B5005704C9 /* RegistrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationController.h; sourceTree = "<group>"; };
+		C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +181,27 @@
 			name = Parser;
 			sourceTree = "<group>";
 		};
+		B0A10DF51E2F71A3006024A2 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				B0F076E81E2F87A50015E478 /* Account.h */,
+				B0F076E91E2F87A50015E478 /* Account.m */,
+				B08E06681E30A43F004AAD3F /* CoreDataManager.h */,
+				B08E06691E30A43F004AAD3F /* CoreDataManager.m */,
+				B08E066B1E30C07C004AAD3F /* Profile.h */,
+				B08E066C1E30C07C004AAD3F /* Profile.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		B0F076ED1E2FB7380015E478 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B0F076EE1E2FB7380015E478 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B0FCCC501E2D24AD002EDD75 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,6 +218,8 @@
 				C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */,
 				C74C1B631E2CADCA00E2B47B /* Consumer.h */,
 				C74C1B641E2CADCA00E2B47B /* Consumer.m */,
+				C710DF571E2FA873006C9A8B /* MemberGroupModel.h */,
+				C710DF581E2FA873006C9A8B /* MemberGroupModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -189,6 +231,7 @@
 				C73A6DD91E24CC1B000D89EE /* HealthViveTests */,
 				C73A6DE41E24CC1B000D89EE /* HealthViveUITests */,
 				C73A6DBB1E24CC1B000D89EE /* Products */,
+				B0F076ED1E2FB7380015E478 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -205,6 +248,7 @@
 		C73A6DBC1E24CC1B000D89EE /* HealthVive */ = {
 			isa = PBXGroup;
 			children = (
+				B0A10DF51E2F71A3006024A2 /* Database */,
 				B0FCCC501E2D24AD002EDD75 /* ForgotPassword */,
 				C7213DFF1E28CF0300F533C8 /* Model */,
 				B030C0E51E27D01100FC9605 /* Parser */,
@@ -217,8 +261,8 @@
 				C73A6DC11E24CC1B000D89EE /* AppDelegate.m */,
 				C73A6DC31E24CC1B000D89EE /* BaseViewController.h */,
 				C73A6DC41E24CC1B000D89EE /* BaseViewController.m */,
-				C73A6DC61E24CC1B000D89EE /* Main.storyboard */,
 				C73A6DCC1E24CC1B000D89EE /* Assets.xcassets */,
+				B0F076EB1E2F9E0D0015E478 /* Main.storyboard */,
 				C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */,
 				C73A6DD11E24CC1B000D89EE /* Info.plist */,
 				C73A6DC91E24CC1B000D89EE /* HealthVive.xcdatamodeld */,
@@ -258,6 +302,10 @@
 			children = (
 				C73A6E331E250EFF000D89EE /* RegistrationQuestionController.h */,
 				C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */,
+				C7ED5F5D1E2E23B5005704C9 /* RegistrationController.h */,
+				C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */,
+				C72F4A8F1E30D0A8004B4E10 /* RegistrationEssentialController.h */,
+				C72F4A901E30D0A8004B4E10 /* RegistrationEssentialController.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -433,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73A6E291E24E0E7000D89EE /* SF-UI-Display-Semibold.otf in Resources */,
+				B0F076EC1E2F9E0D0015E478 /* Main.storyboard in Resources */,
 				C73A6E161E24DFCC000D89EE /* SF-UI-Text-Light.otf in Resources */,
 				C73A6E141E24DFC5000D89EE /* SF-UI-Text-Medium.otf in Resources */,
 				C73A6E151E24DFC9000D89EE /* SF-UI-Text-LightItalic.otf in Resources */,
@@ -452,7 +501,6 @@
 				C73A6E181E24DFD2000D89EE /* SF-UI-Text-Heavy.otf in Resources */,
 				C73A6E111E24DFBD000D89EE /* SF-UI-Text-RegularItalic.otf in Resources */,
 				C73A6E0F1E24DFB7000D89EE /* SF-UI-Text-SemiboldItalic.otf in Resources */,
-				C73A6DC81E24CC1B000D89EE /* Main.storyboard in Resources */,
 				C73A6E251E24E0DC000D89EE /* SF-UI-Display-Heavy.otf in Resources */,
 				C73A6E241E24E0D9000D89EE /* SF-UI-Display-Bold.otf in Resources */,
 				C73A6E2B1E24E0EC000D89EE /* SF-UI-Display-Ultralight.otf in Resources */,
@@ -482,13 +530,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73A6DC51E24CC1B000D89EE /* BaseViewController.m in Sources */,
+				B08E066A1E30A43F004AAD3F /* CoreDataManager.m in Sources */,
 				C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */,
 				C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */,
 				C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */,
+				B08E066D1E30C07C004AAD3F /* Profile.m in Sources */,
+				C7ED5F5F1E2E23B5005704C9 /* RegistrationController.m in Sources */,
 				B030C0E41E27CCE300FC9605 /* LoginViewController.m in Sources */,
 				C73A6DC21E24CC1B000D89EE /* AppDelegate.m in Sources */,
 				C73A6DBF1E24CC1B000D89EE /* main.m in Sources */,
 				C73A6DCB1E24CC1B000D89EE /* HealthVive.xcdatamodeld in Sources */,
+				C710DF591E2FA873006C9A8B /* MemberGroupModel.m in Sources */,
+				B0F076EA1E2F87A50015E478 /* Account.m in Sources */,
+				C72F4A911E30D0A8004B4E10 /* RegistrationEssentialController.m in Sources */,
 				B0FCCC4F1E2CD949002EDD75 /* ForgotPasswordViewController.m in Sources */,
 				B030C0E81E27D08400FC9605 /* APIHandler.m in Sources */,
 			);
@@ -526,14 +580,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C73A6DC61E24CC1B000D89EE /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C73A6DC71E24CC1B000D89EE /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C73A6DCE1E24CC1B000D89EE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -638,12 +684,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8YJ3NTXVGY;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthVive-Prefix.pch";
 				INFOPLIST_FILE = HealthVive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -657,12 +703,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 8YJ3NTXVGY;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HealthVive-Prefix.pch";
 				INFOPLIST_FILE = HealthVive/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nous.healthvive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
