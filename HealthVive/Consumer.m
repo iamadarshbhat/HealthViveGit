@@ -22,6 +22,15 @@
 
 
 -(NSDictionary *)consumerDic:(Consumer *)consumer{
-    return  [NSDictionary dictionaryWithObjectsAndKeys:emailId,emailIDKey,password,passwordKey,[NSNumber numberWithInteger:memberGroupID],memberGroupIdKey,recoveryQuestionsList,recoveryListKey,title,titleKey,foreName,foreNameKey,surName,surNameKey,gender,genderKey,dob,dobKey, nil];
+    NSMutableDictionary *dict ;
+    
+    if(memberGroupID == 0){
+        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:emailId,emailIDKey,password,passwordKey,recoveryQuestionsList,recoveryListKey,title,titleKey,foreName,foreNameKey,surName,surNameKey,gender,genderKey,dob,dobKey, nil];
+    }else{
+        dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:emailId,emailIDKey,password,passwordKey,[NSNumber numberWithInteger:memberGroupID],memberGroupIdKey,recoveryQuestionsList,recoveryListKey,title,titleKey,foreName,foreNameKey,surName,surNameKey,gender,genderKey,dob,dobKey, nil];
+    }
+    
+    
+    return  dict;
 }
 @end

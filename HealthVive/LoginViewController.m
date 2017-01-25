@@ -12,31 +12,22 @@
 #import "RegistrationController.h"
 #import "Account.h"
 #import "CoreDataManager.h"
-
-
-typedef NS_ENUM(NSInteger, StatusType)
-{
-    Registered = 1,
-    Approved ,
-    Rejected ,
-    Suspended ,
-    Deactivated ,
-    UnAuthenticated,
-    ApprovedWithEmailUnverified
-};
+#import "ConsumerProfileViewController.h"
+#import "TabBarController.h"
 
 @interface LoginViewController ()
 {
     CGFloat screenHeight;
     NSString *email;
     NSString *password;
+    int userStatus;
 
 }
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textFieldTopConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *regLeading;
 @property (weak, nonatomic) IBOutlet UILabel *hlabel;
 @property (weak, nonatomic) IBOutlet UIButton *regBtn;
-@property (nonatomic,assign)StatusType *statusType;
 @property (nonatomic,strong)NSUserDefaults *defaults;
 @property (nonatomic,strong)NSManagedObjectContext *managedObjectContext;
 @end
@@ -78,17 +69,20 @@ typedef NS_ENUM(NSInteger, StatusType)
     
     if (screenHeight == 667) {
         self.regLeading.constant = 60;
+        self.textFieldTopConstraint.constant = 95;
     }
     else if (screenHeight == 736)
     {
         
         self.regLeading.constant = 80;
+         self.textFieldTopConstraint.constant = 105;
     }
    
     _defaults =[NSUserDefaults standardUserDefaults];
     [_defaults synchronize];
+
     
-  
+    [self setButtonEnabled:NO forButton:_loginBtn];
     
 }
 
@@ -113,19 +107,49 @@ typedef NS_ENUM(NSInteger, StatusType)
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    return [textField resignFirstResponder];
+  return [textField resignFirstResponder];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
+  
     [self.passwordTxtField resignFirstResponder];
     [self.emailTxtField resignFirstResponder];
 }
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSUInteger newLength = [[self getTrimmedStringForString:textField.text] length] + [[self getTrimmedStringForString:string] length] - range.length;
+    
+    
+    if(textField == _emailTxtField){
+        if(newLength == 0 || _passwordTxtField.text.length == 0){
+            [self setButtonEnabled:NO forButton:_loginBtn];
+        }else{
+            [self setButtonEnabled:YES forButton:_loginBtn];
+        }
+    }else if (textField == _passwordTxtField){
+        if(newLength == 0 || _emailTxtField.text.length == 0){
+            [self setButtonEnabled:NO forButton:_loginBtn];
+        }
+        else{
+            [self setButtonEnabled:YES forButton:_loginBtn];
+        }
+        }
+    
+    if(range.length + range.location > textField.text.length)
+    {
+        return NO;
+    }
+    return YES;
+    
+}
+
 
 
 - (IBAction)loginButtonPressed:(id)sender {
     
+//    TabBarController *tabBar =[[TabBarController alloc]init];
+//    [self presentViewController:tabBar animated:NO completion:nil];
     
-           if ([self validateForm]) {
+    if ([self validateForm]) {
                 
                 NSLog(@"Valid Email -%@",self.emailTxtField.text);
                
@@ -141,17 +165,18 @@ typedef NS_ENUM(NSInteger, StatusType)
                         NSString *accesToken =[result valueForKey:@"access_token"];
                         [_defaults setValue:accesToken forKey:@"access_token"];
                         
+                        NSLog(@"%@",[_defaults valueForKey:@"access_token"]);
+                        userStatus = 2;
+                        
+                        
                         [self saveLoginAccountDetails];
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             
-                            [self showAlertWithTitle:statusStr andMessage:@"User logged in successfully" andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-                                [self clearTextField];
-                                
-                                
-                                
-                            }];
-                        });
+                            TabBarController *tabBar =[[TabBarController alloc]init];
+                            [self presentViewController:tabBar animated:NO completion:nil];
+
+                            });
                         
                     }
                     else
@@ -161,13 +186,22 @@ typedef NS_ENUM(NSInteger, StatusType)
                             NSString *errorDescription =[error valueForKey:@"error_description"];
                             NSString *errorStatus =[error valueForKey:@"error"];
                             
+                            NSString *errorTitle;
+                            if ([errorStatus isEqualToString:@"UnAuthenticated"]) {
+                                
+                                errorTitle = errorAlert;
+                            }
+                            else{
+                                errorTitle = statusStr;
+                            }
+                            
                             [self getTheUserStatus:errorStatus];
                        
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 
-                                [self showAlertWithTitle:statusStr andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                                [self showAlertWithTitle:errorTitle andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
                                 
-                                    [self clearTextField];
+                                    self.passwordTxtField.text = nil;
                                 }];
                                 
                                 
@@ -186,7 +220,11 @@ typedef NS_ENUM(NSInteger, StatusType)
     RegistrationController *registration =[self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationControllerID"];
     [self.navigationController pushViewController:registration animated:YES];
     
+}
 
+-(void)grayOutButton
+{
+    
 }
 
 //To get the status of the user
@@ -196,36 +234,37 @@ typedef NS_ENUM(NSInteger, StatusType)
   
     if ([status isEqualToString:@"Registered"]) {
         
-        NSLog(@"1");
+     
+        
+        userStatus = 1;
         
         
     }
     else if ([status isEqualToString:@"Rejected"])
     {
-        
-        NSLog(@"3");
+        userStatus= 3;
+      
     }
     else if ([status isEqualToString:@"Suspended"])
     {
-        
-        NSLog(@"4");
+        userStatus = 4;
+    
     }
 
     else if ([status isEqualToString:@"Deactivated"])
     {
-        
-        NSLog(@"5");
+        userStatus = 5;
+     
     }
 
     else if ([status isEqualToString:@"UnAuthenticated"])
     {
-        
-        NSLog(@"6");
+        userStatus = 6;
+     
     }
     else if ([status isEqualToString:@"ApprovedWithEmailUnverified"])
     {
-        
-        NSLog(@"7");
+       userStatus = 7;
     }
 
 }
@@ -244,7 +283,8 @@ typedef NS_ENUM(NSInteger, StatusType)
         [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
            
             [self clearTextField];
-
+          
+        
         }];
         
         return false;
@@ -259,7 +299,7 @@ typedef NS_ENUM(NSInteger, StatusType)
             return false;
     }else if (![self IsValidEmail:_emailTxtField.text]){
         
-    [self showAlertWithTitle:invalidEmailIdAlert andMessage:invalidEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+    [self showAlertWithTitle:errorAlert andMessage:invalidEmailMsg andActionTitle:ok actionHandler:^(UIAlertAction *action) {
         
         [self clearTextField];
         
@@ -274,6 +314,7 @@ typedef NS_ENUM(NSInteger, StatusType)
 -(void)clearTextField
 {    self.emailTxtField.text = nil;
     self.passwordTxtField.text = nil;
+    [self setButtonEnabled:NO forButton:_loginBtn];
 }
 
 
@@ -299,9 +340,7 @@ typedef NS_ENUM(NSInteger, StatusType)
             NSManagedObject *account = [NSEntityDescription insertNewObjectForEntityForName:@"Account" inManagedObjectContext:context];
             [account setValue:email forKey:@"email"];
             [account setValue:password forKey:@"password"];
-            [account setValue:[NSNumber numberWithInt:2] forKey:@"account_status"];
-            
-            
+            [account setValue:[NSNumber numberWithInt:userStatus] forKey:@"account_status"];
             
             NSError *error = nil;
             // Save the object to persistent store
@@ -313,12 +352,6 @@ typedef NS_ENUM(NSInteger, StatusType)
         }
         
     }
-    
-    
-    
-    
-    
-   
     
 }
 

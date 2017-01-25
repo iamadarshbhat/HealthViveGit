@@ -14,7 +14,6 @@
 
 @interface RegistrationController (){
     UITextField *activeField;
-    UIView *blurredView;
     NSMutableArray *questionsArray;
     NSMutableArray *groupOptionsArray;
     NSMutableArray *filteredQuestions;
@@ -34,9 +33,18 @@
 @synthesize viewInfo;
 @synthesize tblGroupOptions;
 @synthesize grpTableHeightConstraint;
-
+@synthesize btnShowPassword;
+@synthesize btninfoOK;
+@synthesize btnPassInfo;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    [self.blurredView addGestureRecognizer:singleFingerTap];
+    
     
     consumer = [[Consumer alloc] init];
     
@@ -53,11 +61,14 @@
      [self applyColorToPlaceHolderText:txtemail];
      [self applyColorToPlaceHolderText:txtPassword];
     [self applyCornerToView:btnNext];
-    [self setImageAndTextInsetsToButton:btnSelectGrp andImage:[UIImage imageNamed:dropDown] withLeftSpace:0.];
+    [self setImageAndTextInsetsToButton:btnSelectGrp andImage:[UIImage imageNamed:dropDown] withLeftSpace:-40.0];
     [self setLeftImageForTextField:txtemail withImage:[UIImage imageNamed:userImage]];
     [self setLeftImageForTextField:txtPassword withImage:[UIImage imageNamed:passwordImage]];
     viewInfo.hidden = true;
    tblGroupOptions.hidden = true;
+    [self setButtonEnabled:NO forButton:btnNext];
+    [btnShowPassword setTitle:btnShowPasswordString forState:UIControlStateNormal];
+    [btnShowPassword setHidden:YES];
     
     // Do any additional setup after loading the view.
     
@@ -78,23 +89,35 @@
 - (IBAction)selectGrpAction:(id)sender {
     
     //tblGroupOptions.hidden = false;
-    [self addPopupView:tblGroupOptions];
-    CGFloat tableHeight =  groupTableHeight * groupOptionsArray.count;
-   
-    if(groupOptionsArray.count <= 5){
-        [tblGroupOptions needsUpdateConstraints];
-        [grpTableHeightConstraint setConstant:tableHeight];
-        [tblGroupOptions layoutIfNeeded];
-    }
     
-    [tblGroupOptions reloadData];
+    if([self checkInternetConnection] && groupOptionsArray.count >0){
+        [self addPopupView:tblGroupOptions];
+        CGFloat tableHeight =  groupTableHeight * groupOptionsArray.count;
+        
+        if(groupOptionsArray.count <= 5){
+            [tblGroupOptions needsUpdateConstraints];
+            [grpTableHeightConstraint setConstant:tableHeight];
+            [tblGroupOptions layoutIfNeeded];
+        }
+        
+        [tblGroupOptions reloadData];
+    }
+   
 }
 
 - (IBAction)nextBtnAction:(id)sender {
     if([self validateForm] ){
         if(![self isValidPassword:txtPassword.text]){
             
-            [self showAlertWithTitle:invalidPasswordAlert andMessage:invalidRegistrationPassword andActionTitle:ok actionHandler:nil];
+            [btnShowPassword setHidden:YES];
+            [btnPassInfo setHidden:NO];
+            
+            [self showAlertWithTitle:errorAlert andMessage:invalidRegistrationPassword andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                
+                [self clearPasswordtextField];
+                
+            }];
+            [txtPassword becomeFirstResponder];
             
             return;
         }
@@ -126,6 +149,11 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     activeField = textField;
+    if(textField == txtPassword && [txtPassword.text  isEqual: @""]){
+        [btnPassInfo setHidden:NO];
+        [btnShowPassword setHidden:YES];
+    }
+    
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -133,18 +161,71 @@
     activeField = nil;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
     [textField resignFirstResponder];
     return true;
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+   
+    
+    [txtPassword setSecureTextEntry:YES];
+    NSUInteger newLength = [[self getTrimmedStringForString:textField.text] length] + [[self getTrimmedStringForString:string] length] - range.length;
+    
+    
+    if(textField == txtemail){
+        if(newLength == 0 || txtPassword.text.length == 0){
+            [self setButtonEnabled:NO forButton:btnNext];
+        }else{
+            [self setButtonEnabled:YES forButton:btnNext];
+        }
+    }else if (textField == txtPassword){
+        if(newLength == 0){
+            [btnShowPassword setHidden:YES];
+            [btnPassInfo setHidden:NO];
+        }else{
+            [btnPassInfo setHidden:YES];
+            [btnShowPassword setHidden:NO];
+            [btnShowPassword setTitle:btnShowPasswordString forState:UIControlStateNormal];
+        }
+        
+        if(newLength == 0 || txtemail.text.length == 0){
+            [self setButtonEnabled:NO forButton:btnNext];
+        }
+        else{
+            [self setButtonEnabled:YES forButton:btnNext];
+        }
+        
+    }
+    
+    if(range.length + range.location > textField.text.length)
+    {
+        return NO;
+    }
+    return YES;
+
 }
 
 //Validates the entire screen
 -(Boolean)validateForm{
     
+    if(![self isValidPassword:txtPassword.text] && ![self IsValidEmail:txtemail.text]){
+      
+       
+        [self showAlertWithTitle:errorAlert andMessage:invalidEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+            
+             [self clearAllTextfields];
+            
+        }];
+         [txtemail becomeFirstResponder];
+    }
+    
     if(txtemail.text.length == 0){
+        
         
         [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
             
-            [self clearTextField];
+            [self clearEmailTextField];
             
         }];
         
@@ -153,16 +234,18 @@
         
         [self showAlertWithTitle:invalidPasswordAlert andMessage:emptyLoginPassword andActionTitle:ok actionHandler:^(UIAlertAction *action) {
             
-            [self clearTextField];
+            [self clearPasswordtextField];
+           
             
         }];
         
         return false;
     }else if (![self IsValidEmail:txtemail.text]){
         
-        [self showAlertWithTitle:invalidEmailIdAlert andMessage:invalidEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+       [txtemail becomeFirstResponder];
+        [self showAlertWithTitle:errorAlert andMessage:invalidEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
             
-            [self clearTextField];
+            [self clearEmailTextField];
             
         }];
         
@@ -179,11 +262,22 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", passRegex];
     return [emailTest evaluateWithObject:passwordString];
 }
--(void)clearTextField
+-(void)clearEmailTextField
 {   self.txtemail.text = nil;
+    //[txtemail becomeFirstResponder];
+    
+}
+-(void)clearPasswordtextField{
     self.txtPassword.text = nil;
+    //[txtPassword becomeFirstResponder];
 }
 
+-(void)clearAllTextfields{
+    [self setButtonEnabled:NO forButton:btnNext];
+    self.txtemail.text = nil;
+    self.txtPassword.text = nil;
+    
+}
 
 //Gets all the recovery Questions from API
 -(void)getAllRecoveryQuestions{
@@ -238,8 +332,28 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+      [btnSelectGrp setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnSelectGrp.titleLabel setText:[[groupOptionsArray objectAtIndex:indexPath.row] groupName]];
     [consumer setMemberGroupID:[[groupOptionsArray objectAtIndex:indexPath.row] groupId]];
+    [self removePopupView:tblGroupOptions];
+}
+- (IBAction)showPasswordAction:(id)sender {
+      txtPassword.text = txtPassword.text;
+    if (txtPassword.isFirstResponder) {
+        [txtPassword resignFirstResponder];
+        //[txtPassword becomeFirstResponder];
+    }
+    if([btnShowPassword.titleLabel.text isEqualToString:btnHidePasswordString]){
+        [txtPassword setSecureTextEntry:YES];
+        [btnShowPassword setTitle:btnShowPasswordString forState:UIControlStateNormal];
+    }else{
+        [txtPassword setSecureTextEntry:NO];
+        [btnShowPassword setTitle:btnHidePasswordString forState:UIControlStateNormal];
+    }
+}
+
+//The event handling method for Scrreen touch
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     [self removePopupView:tblGroupOptions];
 }
 @end

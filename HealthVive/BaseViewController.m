@@ -8,10 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface BaseViewController (){
-    UIView *blurredView;
-}
-   
+@interface BaseViewController ()
 
 @end
 
@@ -22,11 +19,15 @@
 @synthesize parentTableViewCell;
 @synthesize parenttableIdentier;
 @synthesize parentTableDataArray;
+@synthesize blurredView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self registerKeyboardNotifications];
-   // [self setNeedsStatusBarAppearanceUpdate];
+    blurredView = [[UIView alloc] initWithFrame:self.view.frame];
+    [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
+
+    
     
 }
 
@@ -125,7 +126,7 @@
          button.alpha  = 1.0;
     [button setBackgroundColor:[UIColor colorWithRed:233.0/255.0f green:52.0/255.0f blue:52.0/255.0f alpha:1]];
     }else if (button.state == UIControlStateDisabled){
-        button.alpha  = 0.75;
+        button.alpha  = 0.50;
     }
 }
 
@@ -140,10 +141,14 @@
     textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{NSForegroundColorAttributeName: color}];
 }
 
+-(void)applyColorToPlaceHolderText:(UITextField *)textField WithColor:(UIColor*)color{
+textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{NSForegroundColorAttributeName:color}];
+}
+
 //Applies place holder text color for Error message
 -(void)applyColorToPlaceHolderTextForError:(UITextField *)textField withErrorMessage:(NSString *)errorMessage{
-    UIColor *color = [UIColor colorWithRed:224.0/255.0f green:224.0/255.0f blue:224.0/255.0f alpha:1];
-    textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{NSForegroundColorAttributeName: color}];
+    textField.text = @"";
+    [textField setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:errorMessage attributes:@{NSForegroundColorAttributeName: [UIColor redColor],NSFontAttributeName: [UIFont systemFontOfSize:10.0]}]];
 }
 
 -(void)setButtonEnabled:(Boolean)isEnabled forButton:(UIButton *)button
@@ -202,10 +207,18 @@
 
 //Gives the image and text insets
 -(void)setImageAndTextInsetsToButton:(UIButton *)btn andImage:(UIImage *) image withLeftSpace:(CGFloat)space{
-    btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
-    btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., space);
+//    btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
+//    btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., space);
+   
+   
+       
     
-    }
+    btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
+    btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., -space);
+    
+    
+
+}
 -(void) setImageInsetsToButton:(UIButton *)btn andImage:(UIImage *)image{
     btn.imageEdgeInsets = UIEdgeInsetsMake(0., 0., 0., (-btn.frame.size.width +image.size.width));
     
@@ -221,9 +234,7 @@
 
 -(void)addPopupView:(UIView *)view{
     view.hidden = false;
-    blurredView = [[UIView alloc] initWithFrame:self.view.frame];
-    [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
-   
+    
     [self.view addSubview:blurredView];
     [self.view bringSubviewToFront:view];
 }
@@ -247,6 +258,104 @@
     dateFormat.dateStyle=NSDateFormatterMediumStyle;
     [dateFormat setDateFormat:formatString];
     return  [NSString stringWithFormat:@"%@",[dateFormat  stringFromDate:date]];
+}
+
+//Shows the HUD
+-(void)showProgressHudWithText:(NSString *)text{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+   // hud.label.textColor = [UIColor blackColor];
+    //[hud.bezelView setBackgroundColor:[UIColor blackColor]];
+    hud.label.text = text;
+}
+
+//Hides the HUD
+-(void)hideProgressHud{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+
+//Checks the internet Connection
+-(BOOL)checkInternetConnection{
+    Reachability *reachability = [Reachability reachabilityWithHostName:remoteHostName];
+    Reachability *internetReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus netStatus = [reachability currentReachabilityStatus];
+    NetworkStatus internetStatus = [internetReachability currentReachabilityStatus];
+    BOOL connectionRequired = [reachability connectionRequired];
+    NSString* statusString = @"";
+    Boolean isReachable;
+    switch (netStatus)
+    {
+        case NotReachable:        {
+            statusString = NSLocalizedString(@"Access Not Available", @"Text field text for access is not available");
+            
+            /*
+             Minor interface detail- connectionRequired may return YES even when the host is unreachable. We cover that up here...
+             */
+            connectionRequired = NO;
+            isReachable = NO;
+            break;
+        }
+            
+        case ReachableViaWWAN:        {
+            statusString = NSLocalizedString(@"Reachable WWAN", @"");
+            isReachable = YES;
+            break;
+        }
+        case ReachableViaWiFi:        {
+            statusString= NSLocalizedString(@"Reachable WiFi", @"");
+            isReachable = YES;
+            break;
+        }
+    }
+    
+    switch (internetStatus)
+    {
+        case NotReachable:        {
+            statusString = NSLocalizedString(@"Access Not Available", @"Text field text for access is not available");
+            
+            /*
+             Minor interface detail- connectionRequired may return YES even when the host is unreachable. We cover that up here...
+             */
+            connectionRequired = NO;
+            isReachable = NO;
+            break;
+        }
+            
+        case ReachableViaWWAN:        {
+            statusString = NSLocalizedString(@"Reachable WWAN", @"");
+            isReachable = YES;
+            break;
+        }
+        case ReachableViaWiFi:        {
+            statusString= NSLocalizedString(@"Reachable WiFi", @"");
+            isReachable = YES;
+            break;
+        }
+    }
+
+    
+    if (connectionRequired)
+    {
+        NSString *connectionRequiredFormatString = NSLocalizedString(@"%@, Connection Required", @"Concatenation of status string with connection requirement");
+        statusString= [NSString stringWithFormat:connectionRequiredFormatString, statusString];
+    }
+    
+    if(connectionRequired || !isReachable){
+       [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
+    }
+    NSLog(@"isReachable %@,%hhu",statusString,isReachable);
+    return isReachable;
+    
+}
+
+-(void)setNaviagationBarWithTitle:(NSString *)title{
+    self.navigationController.navigationBar.hidden =NO;
+    self.navigationItem.title = title;
+    // self.navigationItem.hidesBackButton = YES;
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 @end

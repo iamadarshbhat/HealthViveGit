@@ -11,4 +11,6 @@
 @interface APIHandler : NSObject<NSURLSessionTaskDelegate>
 -(void)makeRequest:(NSString *)param serverUrl:(NSString*)urlString completion:(void (^)(NSDictionary *, NSError *))completion;
 - (void)makeRequestByPost:(NSString*)param serverUrl:(NSString*)urlString completion:(void (^)(NSDictionary *, NSError *))completion;
+
+
 @end

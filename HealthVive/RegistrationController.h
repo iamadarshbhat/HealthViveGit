@@ -28,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *btninfoOK;
 @property (weak, nonatomic) IBOutlet UILabel *lblPasswordInfo;
 @property (weak, nonatomic) IBOutlet UITableView *tblGroupOptions;
+@property (weak, nonatomic) IBOutlet UIButton *btnPassInfo;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnShowPassword;
+- (IBAction)showPasswordAction:(id)sender;
 
 @end

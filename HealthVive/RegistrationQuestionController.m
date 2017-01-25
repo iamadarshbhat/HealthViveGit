@@ -20,9 +20,6 @@
     RecoveryQuestionModel *selectedRecoVeryOne;
     RecoveryQuestionModel *selectedRecoveryTwo;
     RecoveryQuestionModel *selectedRecoveryThree;
-    
-    UIView *blurredView;
-
 }
 
 @end
@@ -50,6 +47,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    [self.blurredView addGestureRecognizer:singleFingerTap];
     
     [super setScrollView:scrollView andTextField:activeField];
     [super setTableView:questionsTableView andTableViewCell:nil withIdentifier:questionTableCellIdentifier andData:questionsArray];
@@ -57,9 +58,9 @@
     
     
     UIImage *image = [UIImage imageNamed:nextArrow];
-    [self setImageAndTextInsetsToButton:btnQuestionOne andImage:image withLeftSpace:30];
-    [self setImageAndTextInsetsToButton:btnQuestionTwo andImage:image withLeftSpace:30];
-    [self setImageAndTextInsetsToButton:btnQuestionthree andImage:image withLeftSpace:30];
+    [self setImageAndTextInsetsToButton:btnQuestionOne andImage:image withLeftSpace:-30];
+    [self setImageAndTextInsetsToButton:btnQuestionTwo andImage:image withLeftSpace:-30];
+    [self setImageAndTextInsetsToButton:btnQuestionthree andImage:image withLeftSpace:-30];
 
     
     [btnQuestionOne setTag:question1Tag];
@@ -117,11 +118,7 @@
     }];}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    [self.view sendSubviewToBack:questionsTableView];
-    [blurredView removeFromSuperview];
-    
-    [self startfadOut:questionsTableView];
+    [self removePopupView:questionsTableView];
     [questionsTableView setHidden:YES];
     RecoveryQuestionModel *recoverymodel = [filteredQuestions objectAtIndex:indexPath.row];
     [activieButton setTitle:recoverymodel.question forState:UIControlStateNormal];
@@ -205,48 +202,38 @@
 #pragma mark Button Actions
 - (IBAction)questionOneBtnAction:(id)sender {
     
-   //***********
-    txtAnswerOne.enabled = YES;
-    activieButton = sender;
-    [self getFilteredQuestion:activieButton:nil];
-    [questionsTableView setHidden:NO];
-    [self startFade:questionsTableView];
-    [activeField resignFirstResponder];
-    
-    blurredView = [[UIView alloc] initWithFrame:self.view.frame];
-    [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
-    [self.view addSubview:blurredView];
-    [self.view bringSubviewToFront:questionsTableView];
-
-   
+    if([self checkInternetConnection]){
+        txtAnswerOne.enabled = YES;
+        activieButton = sender;
+        [self getFilteredQuestion:activieButton:nil];
+        [questionsTableView setHidden:NO];
+        [activeField resignFirstResponder];
+        [self addPopupView:questionsTableView];
+    }
 }
 
 - (IBAction)questionTwoBtnAction:(id)sender {
     
+     if([self checkInternetConnection]){
      txtAnswerTwo.enabled = YES;
      activieButton = sender;
     [self getFilteredQuestion:activieButton:nil];
      [questionsTableView setHidden:NO];
-     [self startFade:questionsTableView];
      [activeField resignFirstResponder];
-    blurredView = [[UIView alloc] initWithFrame:self.view.frame];
-    [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
-    [self.view addSubview:blurredView];
-    [self.view bringSubviewToFront:questionsTableView];
+    [self addPopupView:questionsTableView];
+     }
 }
 
 - (IBAction)questionThreeBtnAction:(id)sender {
    
+     if([self checkInternetConnection]){
      txtAnswerThree.enabled = YES;
      activieButton = sender;
     [self getFilteredQuestion:activieButton:nil];
      [questionsTableView setHidden:NO];
-     [self startFade:questionsTableView];
      [activeField resignFirstResponder];
-     blurredView = [[UIView alloc] initWithFrame:self.view.frame];
-     [blurredView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.50]];
-     [self.view addSubview:blurredView];
-     [self.view bringSubviewToFront:questionsTableView];
+    [self addPopupView:questionsTableView];
+     }
 }
 
 
@@ -303,11 +290,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-
-
-
-
 //Validates the answer screen
 -(BOOL)validateForm{
     NSString *answerOne = [self getTrimmedStringForString:txtAnswerOne.text];
@@ -340,5 +322,10 @@
     NSMutableArray *questionAnserList =  [[NSMutableArray alloc] initWithObjects:[selectedRecoVeryOne getRecoveryQuestionModel:selectedRecoVeryOne],[selectedRecoveryTwo getRecoveryQuestionModel:selectedRecoveryTwo],[selectedRecoveryThree getRecoveryQuestionModel:selectedRecoveryThree], nil];
     consumerToRegister.recoveryQuestionsList = questionAnserList;
    }
+
+//The event handling method for Scrreen touch
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+    [self removePopupView:questionsTableView];
+}
 
 @end

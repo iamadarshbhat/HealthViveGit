@@ -15,21 +15,25 @@
   
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat: @"%@",urlString]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+    
+     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",urlString]];
+  
+     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:60.0];
      
+     if (param!=nil) {
+          NSString *authValue = [NSString stringWithFormat:@"bearer %@",param];
+         [request setValue:authValue forHTTPHeaderField:@"Authorization"];
+     }
      
-
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPMethod:@"GET"];
+     
+     
+     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+     [request setHTTPMethod:@"GET"];
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-        
-        
         NSLog(@"http Response : %@",httpResponse);
         int statusCode = (int)[httpResponse statusCode];
         
@@ -52,7 +56,9 @@
         }
         else
         {
-            completion(nil,error);
+//            id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+//            completion(nil,dictionary);
+           
             NSLog(@"Please check the server connection");
         }
 
@@ -126,8 +132,8 @@
     [postDataTask resume];
     
     
-    
-    
 }
+
+
 
 @end

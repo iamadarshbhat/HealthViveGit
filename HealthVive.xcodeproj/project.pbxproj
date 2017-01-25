@@ -14,6 +14,7 @@
 		B0F076EA1E2F87A50015E478 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F076E91E2F87A50015E478 /* Account.m */; };
 		B0F076EC1E2F9E0D0015E478 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B0F076EB1E2F9E0D0015E478 /* Main.storyboard */; };
 		B0FCCC4F1E2CD949002EDD75 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */; };
+		C70355D91E38B702000C92D1 /* MedicalContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = C70355D81E38B702000C92D1 /* MedicalContactController.m */; };
 		C710DF591E2FA873006C9A8B /* MemberGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C710DF581E2FA873006C9A8B /* MemberGroupModel.m */; };
 		C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C7213E031E28CFFD00F533C8 /* RecoveryQuestionModel.m */; };
 		C72F4A911E30D0A8004B4E10 /* RegistrationEssentialController.m in Sources */ = {isa = PBXBuildFile; fileRef = C72F4A901E30D0A8004B4E10 /* RegistrationEssentialController.m */; };
@@ -50,6 +51,13 @@
 		C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */ = {isa = PBXBuildFile; fileRef = C73A6E341E250EFF000D89EE /* RegistrationQuestionController.m */; };
 		C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */ = {isa = PBXBuildFile; fileRef = C74C1B641E2CADCA00E2B47B /* Consumer.m */; };
 		C7ED5F5F1E2E23B5005704C9 /* RegistrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */; };
+		FA7771BB1E35C8EB009CDEB2 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7771BA1E35C8EB009CDEB2 /* TabBarController.m */; };
+		FA7771C11E35D67A009CDEB2 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7771C01E35D67A009CDEB2 /* EditProfileViewController.m */; };
+		FA7771C51E36425F009CDEB2 /* ContactDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7771C41E36425F009CDEB2 /* ContactDetailsCell.m */; };
+		FA7771C91E365589009CDEB2 /* ConsumerContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7771C81E365589009CDEB2 /* ConsumerContactCell.m */; };
+		FAE71ACC1E31FB980041D6C4 /* ConsumerProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE71ACB1E31FB980041D6C4 /* ConsumerProfileViewController.m */; };
+		FAFA18971E3670F5008D189A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFA18941E3670F5008D189A /* MBProgressHUD.m */; };
+		FAFA18981E3670F5008D189A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFA18961E3670F5008D189A /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +92,8 @@
 		B0F076EE1E2FB7380015E478 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B0FCCC4D1E2CD949002EDD75 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		B0FCCC4E1E2CD949002EDD75 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		C70355D71E38B702000C92D1 /* MedicalContactController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicalContactController.h; sourceTree = "<group>"; };
+		C70355D81E38B702000C92D1 /* MedicalContactController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicalContactController.m; sourceTree = "<group>"; };
 		C710DF571E2FA873006C9A8B /* MemberGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberGroupModel.h; sourceTree = "<group>"; };
 		C710DF581E2FA873006C9A8B /* MemberGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberGroupModel.m; sourceTree = "<group>"; };
 		C7213E021E28CFFD00F533C8 /* RecoveryQuestionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoveryQuestionModel.h; sourceTree = "<group>"; };
@@ -136,6 +146,20 @@
 		C74C1B641E2CADCA00E2B47B /* Consumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Consumer.m; sourceTree = "<group>"; };
 		C7ED5F5D1E2E23B5005704C9 /* RegistrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationController.h; sourceTree = "<group>"; };
 		C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationController.m; sourceTree = "<group>"; };
+		FA7771B91E35C8EB009CDEB2 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		FA7771BA1E35C8EB009CDEB2 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		FA7771BF1E35D67A009CDEB2 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		FA7771C01E35D67A009CDEB2 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		FA7771C31E36425F009CDEB2 /* ContactDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailsCell.h; sourceTree = "<group>"; };
+		FA7771C41E36425F009CDEB2 /* ContactDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailsCell.m; sourceTree = "<group>"; };
+		FA7771C71E365589009CDEB2 /* ConsumerContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsumerContactCell.h; sourceTree = "<group>"; };
+		FA7771C81E365589009CDEB2 /* ConsumerContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsumerContactCell.m; sourceTree = "<group>"; };
+		FAE71ACA1E31FB980041D6C4 /* ConsumerProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsumerProfileViewController.h; sourceTree = "<group>"; };
+		FAE71ACB1E31FB980041D6C4 /* ConsumerProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsumerProfileViewController.m; sourceTree = "<group>"; };
+		FAFA18931E3670F5008D189A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		FAFA18941E3670F5008D189A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		FAFA18951E3670F5008D189A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		FAFA18961E3670F5008D189A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +235,28 @@
 			name = ForgotPassword;
 			sourceTree = "<group>";
 		};
+		C70355D61E38B29B000C92D1 /* MedicalContacts */ = {
+			isa = PBXGroup;
+			children = (
+				C70355D71E38B702000C92D1 /* MedicalContactController.h */,
+				C70355D81E38B702000C92D1 /* MedicalContactController.m */,
+			);
+			name = MedicalContacts;
+			sourceTree = "<group>";
+		};
+		C71B0AD31E37351D007E6D44 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C70355D61E38B29B000C92D1 /* MedicalContacts */,
+				C73A6DF41E24DBB8000D89EE /* Registration */,
+				B030C0DE1E27C70D00FC9605 /* Login */,
+				B0FCCC501E2D24AD002EDD75 /* ForgotPassword */,
+				FAE71AC91E31FB5C0041D6C4 /* UserProfile */,
+				FA7771B81E35C87E009CDEB2 /* TabBar */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		C7213DFF1E28CF0300F533C8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,14 +294,12 @@
 		C73A6DBC1E24CC1B000D89EE /* HealthVive */ = {
 			isa = PBXGroup;
 			children = (
-				B0A10DF51E2F71A3006024A2 /* Database */,
-				B0FCCC501E2D24AD002EDD75 /* ForgotPassword */,
+				C71B0AD31E37351D007E6D44 /* ViewControllers */,
 				C7213DFF1E28CF0300F533C8 /* Model */,
 				B030C0E51E27D01100FC9605 /* Parser */,
-				B030C0DE1E27C70D00FC9605 /* Login */,
+				B0A10DF51E2F71A3006024A2 /* Database */,
 				C73A6E321E24FD33000D89EE /* HealthVive-Prefix.pch */,
 				C73A6E301E24FBD8000D89EE /* Commons */,
-				C73A6DF41E24DBB8000D89EE /* Registration */,
 				C73A6DF81E24DE78000D89EE /* Resources */,
 				C73A6DC01E24CC1B000D89EE /* AppDelegate.h */,
 				C73A6DC11E24CC1B000D89EE /* AppDelegate.m */,
@@ -306,6 +350,10 @@
 				C7ED5F5E1E2E23B5005704C9 /* RegistrationController.m */,
 				C72F4A8F1E30D0A8004B4E10 /* RegistrationEssentialController.h */,
 				C72F4A901E30D0A8004B4E10 /* RegistrationEssentialController.m */,
+				FAFA18931E3670F5008D189A /* MBProgressHUD.h */,
+				FAFA18941E3670F5008D189A /* MBProgressHUD.m */,
+				FAFA18951E3670F5008D189A /* Reachability.h */,
+				FAFA18961E3670F5008D189A /* Reachability.m */,
 			);
 			name = Registration;
 			sourceTree = "<group>";
@@ -369,6 +417,30 @@
 				C73A6E311E24FC82000D89EE /* Constants.h */,
 			);
 			name = Commons;
+			sourceTree = "<group>";
+		};
+		FA7771B81E35C87E009CDEB2 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				FA7771B91E35C8EB009CDEB2 /* TabBarController.h */,
+				FA7771BA1E35C8EB009CDEB2 /* TabBarController.m */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
+		FAE71AC91E31FB5C0041D6C4 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				FAE71ACA1E31FB980041D6C4 /* ConsumerProfileViewController.h */,
+				FAE71ACB1E31FB980041D6C4 /* ConsumerProfileViewController.m */,
+				FA7771BF1E35D67A009CDEB2 /* EditProfileViewController.h */,
+				FA7771C01E35D67A009CDEB2 /* EditProfileViewController.m */,
+				FA7771C31E36425F009CDEB2 /* ContactDetailsCell.h */,
+				FA7771C41E36425F009CDEB2 /* ContactDetailsCell.m */,
+				FA7771C71E365589009CDEB2 /* ConsumerContactCell.h */,
+				FA7771C81E365589009CDEB2 /* ConsumerContactCell.m */,
+			);
+			name = UserProfile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -530,16 +602,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				C73A6DC51E24CC1B000D89EE /* BaseViewController.m in Sources */,
+				FA7771C91E365589009CDEB2 /* ConsumerContactCell.m in Sources */,
+				FA7771C51E36425F009CDEB2 /* ContactDetailsCell.m in Sources */,
 				B08E066A1E30A43F004AAD3F /* CoreDataManager.m in Sources */,
 				C73A6E351E250EFF000D89EE /* RegistrationQuestionController.m in Sources */,
+				FA7771BB1E35C8EB009CDEB2 /* TabBarController.m in Sources */,
+				FAE71ACC1E31FB980041D6C4 /* ConsumerProfileViewController.m in Sources */,
 				C7213E041E28CFFD00F533C8 /* RecoveryQuestionModel.m in Sources */,
 				C74C1B651E2CADCA00E2B47B /* Consumer.m in Sources */,
+				FA7771C11E35D67A009CDEB2 /* EditProfileViewController.m in Sources */,
 				B08E066D1E30C07C004AAD3F /* Profile.m in Sources */,
 				C7ED5F5F1E2E23B5005704C9 /* RegistrationController.m in Sources */,
+				C70355D91E38B702000C92D1 /* MedicalContactController.m in Sources */,
 				B030C0E41E27CCE300FC9605 /* LoginViewController.m in Sources */,
 				C73A6DC21E24CC1B000D89EE /* AppDelegate.m in Sources */,
 				C73A6DBF1E24CC1B000D89EE /* main.m in Sources */,
+				FAFA18971E3670F5008D189A /* MBProgressHUD.m in Sources */,
 				C73A6DCB1E24CC1B000D89EE /* HealthVive.xcdatamodeld in Sources */,
+				FAFA18981E3670F5008D189A /* Reachability.m in Sources */,
 				C710DF591E2FA873006C9A8B /* MemberGroupModel.m in Sources */,
 				B0F076EA1E2F87A50015E478 /* Account.m in Sources */,
 				C72F4A911E30D0A8004B4E10 /* RegistrationEssentialController.m in Sources */,

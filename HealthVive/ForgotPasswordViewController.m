@@ -26,21 +26,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-    self.navigationController.navigationBar.hidden =NO;
-    self.navigationItem.title = @"Forgot Password";
-    // self.navigationItem.hidesBackButton = YES;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
-    self.navigationController.navigationBar.translucent = NO;
+    [self setNaviagationBarWithTitle:forgotPassNavigationBarTitle];
     self.emailTextField.delegate = self;
     
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     screenHeight = screenRect.size.height;
-    
-    
     
     UIImage*menuIcon = [UIImage imageNamed:@"backButton"];
     CGRect frameimg = CGRectMake(0, 0, menuIcon.size.width, menuIcon.size.height);
@@ -54,16 +45,19 @@
     
     
     _emailTextField.layer.cornerRadius = 5.0;
+    
     _resetPasswordBtn.layer.cornerRadius = 5.0;
     
     UIView *paddingView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 20)];
     _emailTextField.leftView = paddingView1;
     _emailTextField.leftViewMode = UITextFieldViewModeAlways;
     
+    [self.resetPasswordBtn setBackgroundColor:NAVBAR_BCG_COLOR];
     
+
+  _emailTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Email" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:0.5]}];
     
-    [self applyColorToPlaceHolderText:self.emailTextField];
-    
+ 
     
     
 }
@@ -118,6 +112,7 @@
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 
                                 _emailTextField.text = nil;
+                                [self.navigationController popViewControllerAnimated:NO];
                             });
                             
                             
@@ -133,7 +128,7 @@
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                        [self showAlertWithTitle:errorAlert andMessage:forgotPassEmailAlert andActionTitle:ok actionHandler:^(UIAlertAction *action) {
                             _emailTextField.text = nil;
                             
                         }];

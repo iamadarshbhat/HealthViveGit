@@ -9,6 +9,8 @@
 #import "RegistrationEssentialController.h"
 
 
+
+
 @interface RegistrationEssentialController (){
     NSArray *titlesArray;
     NSDate *selectedDate;
@@ -16,6 +18,8 @@
     NSString *selectedGender;
     NSString *foreNameStr;
     NSString *surNameStr;
+    BOOL isFornemaSurnameEntered;
+    
 }
 
 @end
@@ -37,19 +41,27 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    [self.blurredView addGestureRecognizer:singleFingerTap];
     titleTable.hidden = true;
     datePickerPopupView.hidden = true;
     [btnSelectDate setTitle:buttonSelectDateStr forState:UIControlStateNormal];
     [btnTitle setTitle:buttonTitleStr forState:UIControlStateNormal];
     [self setCalendarForMaximumDate];
-    titlesArray = [NSArray arrayWithObjects:@"Mr",@"Mrs",@"Miss",@"Sir", nil];
+    titlesArray = [NSArray arrayWithObjects:@"Mr",@"Mrs",@"Miss",@"Ms", nil];
     [self setImageAndTextInsetsToButton:btnTitle andImage:[UIImage imageNamed:dropDown] withLeftSpace:0.0];
-    [self setImageAndTextInsetsToButton:btnSelectDate andImage:[UIImage imageNamed:datePickerImage] withLeftSpace:0.0];
+    [self setImageAndTextInsetsToButton:btnSelectDate andImage:[UIImage imageNamed:datePickerImage] withLeftSpace:-30.0];
     [self makeGenderButtonDeSelected:btnMale];
     [self makeGenderButtonDeSelected:btnFemale];
     [self makeGenderButtonDeSelected:btnOther];
     [self setButtonEnabled:NO forButton:btnRegister];
 }
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -60,6 +72,7 @@
 
 - (IBAction)dateOkAction:(id)sender {
     NSString *dateStr = [self getDateString:datePickerView.date withFormat:@"dd/MM/yyyy"];
+    [btnSelectDate setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [btnSelectDate setTitle:dateStr forState:UIControlStateNormal];
     [self removePopupView:datePickerPopupView];
     [self validateForm];
@@ -71,6 +84,7 @@
 }
 
 - (IBAction)titleClickAction:(id)sender {
+    [activeTextField resignFirstResponder];
     titleTable.hidden = false;
     [self addPopupView:titleTable];
     [self validateForm];
@@ -81,13 +95,22 @@
 }
 
 - (IBAction)selectDateAction:(id)sender {
+    [activeTextField resignFirstResponder];
+    selectedDate = datePickerView.date;
     [self addPopupView:datePickerPopupView];
 }
 
 - (IBAction)registerBtnAction:(id)sender {
     
     if([self validateForm]){
-        [self registerConsumer];
+        
+        if([self validateFirstnameAndSurName]){
+            if([self checkInternetConnection]){
+                [self registerConsumer];
+            }
+            
+        }
+        
     }
 }
 
@@ -136,6 +159,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
    
+    [btnTitle setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [btnTitle setTitle:[titlesArray objectAtIndex:indexPath.row] forState:UIControlStateNormal];
     [self removePopupView:titleTable];
     [self validateForm];
@@ -170,7 +194,16 @@
 
 #pragma mark Text Field Delegate methods
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
     activeTextField = textField;
+    [self applyColorToPlaceHolderText:activeTextField WithColor:[UIColor lightGrayColor]];
+    
+    if(textField == txtForeName){
+        [txtForeName setPlaceholder:foreNamePlaceHolderText];
+    }else if (textField == txtSurName){
+        [txtSurName setPlaceholder:surNamePlaceHolderText];
+    }
+    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     activeTextField = textField;
@@ -182,8 +215,27 @@
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    [self validateForm];
+
     NSUInteger newLength = [[self getTrimmedStringForString:textField.text] length] + [[self getTrimmedStringForString:string] length] - range.length;
+    
+    if(textField == txtForeName){
+        if (newLength == 0 || txtSurName.text.length == 0) {
+            isFornemaSurnameEntered = false;
+        }else{
+            isFornemaSurnameEntered = true;
+
+        }
+    }else if(textField == txtSurName){
+        if (newLength == 0 || txtForeName.text.length == 0) {
+            isFornemaSurnameEntered = false;
+
+        }else{
+            isFornemaSurnameEntered = true;
+
+        }
+    }
+    [self validateForm];
+    
     
     if(range.length + range.location > textField.text.length)
     {
@@ -199,23 +251,46 @@
     }
 }
 
+-(BOOL)validateFirstnameAndSurName{
+    BOOL flag = true;
+    if(foreNameStr.length < 2){
+        [self applyColorToPlaceHolderTextForError:txtForeName withErrorMessage:foreNameInlineError];
+        flag = false;
+    }
+    if (surNameStr.length < 2){
+        [self applyColorToPlaceHolderTextForError:txtSurName withErrorMessage:surNameInlineError];
+        flag = false;
+    }
+    
+    return  flag;
+}
+
+
 //Validates all fields
 -(BOOL)validateForm{
     foreNameStr = [self getTrimmedStringForString:txtForeName.text];
     surNameStr = [self getTrimmedStringForString:txtSurName.text];
     
     if([btnTitle.titleLabel.text isEqualToString:buttonTitleStr]){
+        [self setButtonEnabled:NO forButton:btnRegister];
         return false;
     }else if ([btnSelectDate.titleLabel.text isEqualToString:buttonSelectDateStr]){
+        [self setButtonEnabled:NO forButton:btnRegister];
         return false;
     }else if (selectedGender == nil){
+         [self setButtonEnabled:NO forButton:btnRegister];
         return false;
-    }else if (foreNameStr ==nil || [foreNameStr isEqualToString:@""]){
+    }else if (foreNameStr ==nil || !isFornemaSurnameEntered){
+         [self setButtonEnabled:NO forButton:btnRegister];
         return false;
-    }else if (txtSurName == nil || [surNameStr isEqualToString:@""]){
+    }else if (txtSurName == nil || !isFornemaSurnameEntered){
+         [self setButtonEnabled:NO forButton:btnRegister];
+        return false;
+    }else if(!isFornemaSurnameEntered){
+         [self setButtonEnabled:NO forButton:btnRegister];
         return false;
     }else{
-        [self setButtonEnabled:YES forButton:btnRegister];
+       [self setButtonEnabled:YES forButton:btnRegister];
     }
     return true;
 }
@@ -238,10 +313,11 @@
     
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    
+    NSLog(@"JSON String :%@",jsonString);
 
     APIHandler *reqHandler =[[APIHandler alloc] init];
     
+    [self showProgressHudWithText:@"Registering.."];
     [reqHandler makeRequestByPost:jsonString  serverUrl:httpRegisterConsumer completion:^(NSDictionary *result, NSError *error) {
 
         if ( error == nil) {
@@ -249,6 +325,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
+                [self hideProgressHud];
                 [self showAlertWithTitle:statusStr andMessage:successfullRegisterMsg andActionTitle:ok actionHandler:^(UIAlertAction *action){
                     [self popToRootView];
                 }];
@@ -260,6 +337,8 @@
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSDictionary *errorObj =[error valueForKey:@"Error"];
                 
+              
+                
                 NSString *errorDescription = [errorObj valueForKey:@"error_description"];
                 NSLog(@"errorDescription ....%@",errorDescription);
                 if (errorDescription == nil || [errorDescription isEqualToString:@""]) {
@@ -267,6 +346,7 @@
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                     [self hideProgressHud];
                     [self showAlertWithTitle:statusStr andMessage:errorDescription andActionTitle:ok actionHandler:nil];
                 });
             });
@@ -277,6 +357,21 @@
 //Pop back the view controller to root
 -(void)popToRootView{
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
+//The event handling method for Scrreen touch
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+    // CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    if(datePickerPopupView !=nil){
+        [self removePopupView:datePickerPopupView];
+
+    }
+    if(titleTable != nil){
+       [self removePopupView:titleTable]; 
+    }
+    
+    //Do stuff here...
 }
 
 @end
