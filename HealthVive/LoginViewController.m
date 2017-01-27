@@ -146,76 +146,87 @@
 
 - (IBAction)loginButtonPressed:(id)sender {
     
-//    TabBarController *tabBar =[[TabBarController alloc]init];
-//    [self presentViewController:tabBar animated:NO completion:nil];
+    TabBarController *tabBar =[[TabBarController alloc]init];
+    [self presentViewController:tabBar animated:NO completion:nil];
     
     if ([self validateForm]) {
                 
-                NSLog(@"Valid Email -%@",self.emailTxtField.text);
-               
-               email =[self getTrimmedStringForString:self.emailTxtField.text];
-               password =[self getTrimmedStringForString:self.passwordTxtField.text];
-                NSString *paramString =[NSString stringWithFormat:@"username=%@&password=%@&grant_type=%@",email,password,@"password"];
-                APIHandler *reqHandler =[[APIHandler alloc] init];
-                
-            [reqHandler makeRequestByPost:paramString                                       serverUrl:LoginAuthentication completion:^(NSDictionary *result, NSError *error) {
-                    
-                    if ( error == nil) {
-                        NSLog(@"result -%@",result);
-                        NSString *accesToken =[result valueForKey:@"access_token"];
-                        [_defaults setValue:accesToken forKey:@"access_token"];
-                        
-                        NSLog(@"%@",[_defaults valueForKey:@"access_token"]);
-                        userStatus = 2;
-                        
-                        
-                        [self saveLoginAccountDetails];
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            TabBarController *tabBar =[[TabBarController alloc]init];
-                            [self presentViewController:tabBar animated:NO completion:nil];
-
-                            });
-                        
-                    }
-                    else
-                    {
-                        
-                        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                            NSString *errorDescription =[error valueForKey:@"error_description"];
-                            NSString *errorStatus =[error valueForKey:@"error"];
-                            
-                            NSString *errorTitle;
-                            if ([errorStatus isEqualToString:@"UnAuthenticated"]) {
-                                
-                                errorTitle = errorAlert;
-                            }
-                            else{
-                                errorTitle = statusStr;
-                            }
-                            
-                            [self getTheUserStatus:errorStatus];
-                       
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                
-                                [self showAlertWithTitle:errorTitle andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-                                
-                                    self.passwordTxtField.text = nil;
-                                }];
-                                
-                                
-                            });
-                            
-                        });
-                        
-                    }
-                    
-                }];
-                
-            }
+        if ([self checkInternetConnection]) {
+            
+            [self callLoginServices];
+           
+        }
  
    }
+}
+
+-(void)callLoginServices
+{
+    
+    email =[self getTrimmedStringForString:self.emailTxtField.text];
+    password =[self getTrimmedStringForString:self.passwordTxtField.text];
+    NSString *paramString =[NSString stringWithFormat:@"username=%@&password=%@&grant_type=%@",email,password,@"password"];
+    APIHandler *reqHandler =[[APIHandler alloc] init];
+    [self showProgressHudWithText:@""];
+    [reqHandler makeRequestByPost:paramString                                       serverUrl:LoginAuthentication completion:^(NSDictionary *result, NSError *error) {
+        
+        if ( error == nil) {
+            NSLog(@"result -%@",result);
+            NSString *accesToken =[result valueForKey:@"access_token"];
+            [_defaults setValue:accesToken forKey:@"access_token"];
+            
+            NSLog(@"%@",[_defaults valueForKey:@"access_token"]);
+            userStatus = 2;
+            
+            
+            [self saveLoginAccountDetails];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self hideProgressHud];
+                TabBarController *tabBar =[[TabBarController alloc]init];
+                [self presentViewController:tabBar animated:NO completion:nil];
+                
+            });
+            
+        }
+        else
+        {
+            
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *errorDescription =[error valueForKey:@"error_description"];
+                NSString *errorStatus =[error valueForKey:@"error"];
+                
+                NSString *errorTitle;
+                if ([errorStatus isEqualToString:@"UnAuthenticated"]) {
+                    
+                    errorTitle = errorAlert;
+                }
+                else{
+                    errorTitle = statusStr;
+                }
+                
+                [self getTheUserStatus:errorStatus];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self showAlertWithTitle:errorTitle andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                        
+                        self.passwordTxtField.text = nil;
+                    }];
+                    
+                    
+                });
+                
+            });
+            
+        }
+        
+    }];
+    
+}
+    
+
 - (IBAction)registerBtnPressed:(id)sender {
     RegistrationController *registration =[self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationControllerID"];
     [self.navigationController pushViewController:registration animated:YES];

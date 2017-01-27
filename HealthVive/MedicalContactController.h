@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MedicalContactDetailsController.h"
+#import "MedicalContactCell.h"
 
 @interface MedicalContactController : BaseViewController
+@property (weak, nonatomic) IBOutlet UIButton *btnAddContact;
+@property (weak, nonatomic) IBOutlet UITableView *medicalContacttableView;
+- (IBAction)addContactAction:(id)sender;
+- (IBAction)addBarButtonAction:(id)sender;
 
 @end

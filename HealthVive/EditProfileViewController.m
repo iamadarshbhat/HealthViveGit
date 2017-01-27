@@ -8,15 +8,18 @@
 
 #import "EditProfileViewController.h"
 #import "ContactDetailsCell.h"
+#import "APIHandler.h"
 
 @interface EditProfileViewController ()
 {
-    NSMutableArray *titleArray;
+  
      CGFloat screenHeight;
      NSMutableArray *popUptitleArray;
-    NSMutableArray *genderArray;
-    BOOL isDropDown;
+     NSMutableArray *genderArray;
+     BOOL isDropDown;
+    NSUserDefaults *defaults;
 }
+@property (weak, nonatomic) IBOutlet UITextField *addressTxtFld;
 
 @end
 
@@ -26,25 +29,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _contactDetailsTableView.delegate = self;
-    _contactDetailsTableView.dataSource = self;
-   _foreNametextField.delegate = self;
-    _surnameTxtField.delegate = self;
-    
-  
 
+   _foreNametextField.delegate = self;
+   _surnameTxtField.delegate = self;
     
-    titleArray =[[NSMutableArray alloc]initWithObjects:@"Address1 (Title)", @"Address2(Number and Street.)",@"Town/City",@"PostCode*",@"Country",@"Home phone",@"Mobile Phone",@"Alternate Email",nil];
+    
 
     popUptitleArray =[[NSMutableArray alloc]initWithObjects:@"Mr.",@"Mrs.",@"Miss",@"Ms.",@"Sir",@"Etc", nil];
     genderArray =[[NSMutableArray alloc]initWithObjects:@"Male",@"Female", nil];
+    
+    defaults =[NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
    
-    self.navigationController.navigationBar.hidden =NO;
-    self.navigationItem.title = @"Edit";
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
-    self.navigationController.navigationBar.translucent = NO;
+      [self setNaviagationBarWithTitle:@"Edit Profile"];
     
     
    
@@ -75,8 +72,10 @@
         _genderBtn.imageEdgeInsets = UIEdgeInsetsMake(3, 110, 0, 0);
     }
 
-    self.blurView.hidden = YES;
-  
+    [super setScrollView:_editScrollView andTextField:_addressTxtFld];
+    _popUpTableView.hidden = YES;
+    _datePickerView.hidden = YES;
+    
 
 }
 
@@ -86,6 +85,47 @@
 }
 -(void)saveBtnClicked
 {
+ 
+    
+    NSString *upDateConsumerprofile =@"http://192.168.18.23/HealthViveService/api/account/UpdateConsumerProfile";
+    NSString *token =[defaults valueForKey:@"access_token"];
+    NSString *dateOfBirth = _dob;
+    NSString *forName = _foreNametextField.text;
+    NSString*surName =_surnameTxtField.text;
+    NSString *gender = _genderBtn.currentTitle;
+    NSString *postCode = @"560016";
+    NSString *title = _titleBtn.currentTitle;
+    
+    NSError *writeError = nil;
+    
+    NSDictionary * dict = [[NSDictionary alloc] initWithObjectsAndKeys:title,@"Title",forName,@"ForeName",surName,@"LastName",gender,@"Gender",postCode,@"PostCode",dateOfBirth,@"DateOfBirth",nil];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
+    NSLog(@"%@",writeError);
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@",jsonString);
+    
+    if ([self checkInternetConnection]) {
+
+        APIHandler *reqHandler =[[APIHandler alloc]init];
+        [reqHandler makeRequestByPost:jsonString serverUrl:upDateConsumerprofile withAccessToken:token completion:^(NSDictionary *result, NSError *error) {
+            
+            if (error == nil) {
+                
+                
+                NSLog(@"%@",result);
+            }
+            else
+            {
+                NSLog(@"%@",error);
+            }
+            
+            
+        }];
+       
+        
+    }
   
   
 }
@@ -113,7 +153,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == _popUpTableView) {
+    
         
         if (isDropDown == YES) {
            return popUptitleArray.count;
@@ -122,20 +162,14 @@
             return genderArray.count;
         }
         
-    }
-    else if(tableView == _contactDetailsTableView){
-        
-        return titleArray.count;
-    }
-    
-    return 0;
-}
+  
+  }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      static NSString *cellIdentifier =@"Cell";
   
-    if (tableView  == _popUpTableView) {
+
        
         UITableViewCell *popUpCell =[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         
@@ -158,55 +192,11 @@
         
         return popUpCell;
         
-    }
-    else {
-        
-        ContactDetailsCell *contactDetailcell =[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        
-        if (!contactDetailcell) {
-            contactDetailcell =[[ContactDetailsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-            contactDetailcell.contactEditTextField.delegate = self;
-        }
-        
-        contactDetailcell.contactEditTextField.delegate = self;
-        contactDetailcell.contactEditTextField.tag = indexPath.row;
-          [super setScrollView:_editScrollView andTextField:contactDetailcell.contactEditTextField];
-        if (indexPath.row == 4) {
-            
-            contactDetailcell.countryBtn.hidden =NO;
-            contactDetailcell.contactEditTextField.hidden = YES;
-            if (screenHeight == 667) {
-                
-                contactDetailcell.countryBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 310, 0, 0);
-            }
-            else if (screenHeight == 736)
-            {
-                contactDetailcell.countryBtn.imageEdgeInsets = UIEdgeInsetsMake(5, 350, 0, 0);
-            }
-            
-            
-            [contactDetailcell.countryBtn setTitle:[titleArray objectAtIndex:indexPath.row] forState:UIControlStateNormal];
-            
-        }
-        else
-        {   contactDetailcell.countryBtn.hidden =YES;
-            contactDetailcell.contactEditTextField.hidden = NO;
-            contactDetailcell.contactEditTextField.placeholder =[titleArray objectAtIndex:indexPath.row];
-        }
-        
-        return contactDetailcell;
-    }
-    
-    
-}
+  }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
    
-   if (tableView == _popUpTableView) {
-        self.editScrollView.scrollEnabled = YES;
-        self.blurView.hidden =YES;
-       
-       if (isDropDown == YES) {
+  if (isDropDown == YES) {
            NSString *title =[popUptitleArray objectAtIndex:indexPath.row];
            [_titleBtn setTitle:title forState:UIControlStateNormal];
            isDropDown = NO;
@@ -216,24 +206,25 @@
            [_genderBtn setTitle:title forState:UIControlStateNormal];
            isDropDown = YES;
        }
-       
-      }
+    [self removePopupView:_popUpTableView];
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     return  [textField resignFirstResponder];
 }
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self removePopupView:_popUpTableView];
+     [self removePopupView:_datePickerView];
+    
+}
 - (IBAction)titleBtnClicked:(id)sender {
     _popUpTableView.delegate = self;
     _popUpTableView.dataSource = self;
-    self.blurView.hidden = NO;
-   // [self addPopupView:_popUpTableView];
-     self.popUpTitleLbl.text = @"Title";
+    self.popUpTitleLbl.text = @"Title";
     isDropDown = YES;
-    [self.blurView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.4]];
-    self.editScrollView.scrollEnabled = NO;
-    self.contactDetailsTableView.userInteractionEnabled = NO;
+    [self addPopupView:_popUpTableView];
     [_popUpTableView reloadData];
  
    }
@@ -241,17 +232,36 @@
     isDropDown = NO;
     _popUpTableView.delegate = self;
     _popUpTableView.dataSource = self;
-    self.blurView.hidden = NO;
-   //  [self addPopupView:_popUpTableView];
     self.popUpTitleLbl.text = @"Gender";
-    [self.blurView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.4]];
-   self.editScrollView.scrollEnabled = NO;
-    self.contactDetailsTableView.userInteractionEnabled = NO;
-
+      [self addPopupView:_popUpTableView];
     [_popUpTableView reloadData];
    
     
 }
+- (IBAction)dobBtnClicked:(id)sender {
+    _datePickerView.hidden = NO;
+    [self addPopupView:_datePickerView];
+}
+//Sets Calander to 16 years back
+-(void)setCalendarForMaximumDate{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDate *currentDate = [NSDate date];
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setYear:-maximumYear];
+    NSDate *maxDate = [gregorian dateByAddingComponents:comps toDate:currentDate  options:0];
+    _datePicker.maximumDate = maxDate;
+}
 
+- (IBAction)dateOkAction:(id)sender {
+    
+    _dob = [self getDateString:_datePicker.date withFormat:@"dd/MM/yyyy"];
+    [_dobBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [_dobBtn setTitle:_dob forState:UIControlStateNormal];
+    [self removePopupView:_datePickerView];
+}
+- (IBAction)dateCancelAction:(id)sender {
+    
+     [self removePopupView:_datePickerView];
+}
 
 @end

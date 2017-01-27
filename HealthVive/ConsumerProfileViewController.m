@@ -33,13 +33,9 @@
     
     
     
-    self.navigationController.navigationBar.hidden =NO;
-    self.navigationItem.title = @"My Profile";
-    // self.navigationItem.hidesBackButton = YES;
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
-    self.navigationController.navigationBar.translucent = NO;
     
+    
+    [self setNaviagationBarWithTitle:@"My Profile"];
     
     UIBarButtonItem *rightBarButton =[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editBtnClicked)];
     rightBarButton.tintColor = [UIColor whiteColor];
@@ -60,13 +56,17 @@
     defaults =[NSUserDefaults standardUserDefaults];
     [defaults synchronize];
     
-   [self getConsumerDetails];
+
+    [self getConsumerDetails];
+
+
     
     
 }
 -(void)editBtnClicked
 {
     EditProfileViewController *editProfile =[self.storyboard instantiateViewControllerWithIdentifier:@"EditProfileViewControllerID"];
+    
     
     [self.navigationController pushViewController:editProfile animated:NO];
 }
@@ -102,8 +102,18 @@
 }
 -(void)getConsumerDetails
 {
+    if ([self  checkInternetConnection]) {
+        
+        [self callGetConsumerservices];
+    }
+    
+    
+
+}
+-(void)callGetConsumerservices
+{
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      
+        
         NSString *token =[NSString stringWithFormat:@"%@",[defaults valueForKey:@"access_token"]];
         
         APIHandler *reqHandler =[[APIHandler alloc] init];
@@ -138,7 +148,7 @@
                     
                     
                 });
-
+                
             }
             
         }];

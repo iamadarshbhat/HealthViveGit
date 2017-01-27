@@ -350,10 +350,14 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
 }
 
 -(void)setNaviagationBarWithTitle:(NSString *)title{
+    self.navigationController.navigationBar.backItem.title = @"";
     self.navigationController.navigationBar.hidden =NO;
     self.navigationItem.title = title;
     // self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    [self.navigationController.navigationItem.leftBarButtonItem setTitle:@""];
     self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
     self.navigationController.navigationBar.translucent = NO;
 }

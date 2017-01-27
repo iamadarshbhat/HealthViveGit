@@ -67,6 +67,7 @@
 #define RegistrationEssentialControllerId @"RegistrationEssentialController"
 #define ConsumerProfileViewControllerId @"ConsumerProfileViewControllerID"
 #define medicalContactControllerID @"MedicalContactControllerID"
+#define medicalContactDetailsControllerID @"medicalContactDetailsControllerID"
 
 //NavBarColor
 #define NAVBAR_BCG_COLOR [UIColor colorWithRed:233/255.0 green:52/255.0 blue:52/255.0 alpha:1.0]
@@ -74,6 +75,7 @@
 //NavBarTitles
 #define forgotPassNavigationBarTitle @"Forgot Password"
 #define medicalContactNavigationBarTitle @"Medical Contacts"
+#define contactDetailsNavigatinBarTitle @"Contact Details"
 
 //Hexa Color Codes
 #define buttonColorCode #e93434

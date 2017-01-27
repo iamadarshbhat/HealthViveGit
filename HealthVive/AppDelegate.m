@@ -21,7 +21,7 @@
     
     CoreDataManager *dataManager =[[CoreDataManager alloc]init];
     dataManager = nil;
-    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     
     return YES;
