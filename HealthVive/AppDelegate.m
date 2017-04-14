@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "CoreDataManager.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,6 +23,11 @@
     CoreDataManager *dataManager =[[CoreDataManager alloc]init];
     dataManager = nil;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    LoginViewController *controller =[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewControllerID"];
+    UINavigationController *navController =[[UINavigationController alloc]initWithRootViewController:controller];
+    self.window.rootViewController = navController;
+    
     
     
     return YES;
@@ -54,8 +60,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
   
+    CoreDataManager *dataManaeger = [CoreDataManager sharedManager];
+    [dataManaeger saveContext];
 }
-
 
 
 @end

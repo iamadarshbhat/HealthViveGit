@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MedicalContactController.h"
+#import "MedicalContactsController.h"
 
 @interface TabBarController : UITabBarController
 

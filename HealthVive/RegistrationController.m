@@ -48,7 +48,12 @@
     
     consumer = [[Consumer alloc] init];
     
-     [self getAllRecoveryQuestions];
+    if([self checkInternetConnection]){
+        [self getAllRecoveryQuestions];
+    }else{
+         [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
+    }
+    
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -61,7 +66,9 @@
      [self applyColorToPlaceHolderText:txtemail];
      [self applyColorToPlaceHolderText:txtPassword];
     [self applyCornerToView:btnNext];
-    [self setImageAndTextInsetsToButton:btnSelectGrp andImage:[UIImage imageNamed:dropDown] withLeftSpace:-40.0];
+  //  [self setImageAndTextInsetsToButton:btnSelectGrp andImage:[UIImage imageNamed:dropDown] withLeftSpace:-40.0];
+    
+    [self fixButtonImages];
     [self setLeftImageForTextField:txtemail withImage:[UIImage imageNamed:userImage]];
     [self setLeftImageForTextField:txtPassword withImage:[UIImage imageNamed:passwordImage]];
     viewInfo.hidden = true;
@@ -74,6 +81,8 @@
     
    
 }
+
+
 
 -(void)viewWillAppear:(BOOL)animated{
     //[tblGroupOptions setHidden:YES];
@@ -101,12 +110,18 @@
         }
         
         [tblGroupOptions reloadData];
+    }else{
+         [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
     }
    
 }
 
 - (IBAction)nextBtnAction:(id)sender {
+    
+    
+    
     if([self validateForm] ){
+       
         if(![self isValidPassword:txtPassword.text]){
             
             [btnShowPassword setHidden:YES];
@@ -121,17 +136,75 @@
             
             return;
         }
-        [consumer setEmailId:txtemail.text];
-        [consumer setPassword:txtPassword.text];
-        
-        
-        RegistrationQuestionController *registerVC =[self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationQuestionController"];
-        registerVC.filteredQuestions = filteredQuestions;
-        registerVC.questionsArray = questionsArray;
-        registerVC.groupOptionsArray = groupOptionsArray;
-        registerVC.consumerToRegister = consumer;
-        [self.navigationController pushViewController:registerVC animated:NO];
+        [self callApiTocheckEmail];
+            
     }
+}
+
+-(void)callApiTocheckEmail{
+    
+  
+    NSError *writeError = nil;
+    
+    NSDictionary * dict = [NSDictionary dictionaryWithObject:txtemail.text forKey:@"EmailID"];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
+    
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"JSON String :%@",jsonString);
+    
+    APIHandler *reqHandler =[[APIHandler alloc] init];
+    
+    [self showProgressHudWithText:@"Validating Email..."];
+    NSString *url =  [NSString stringWithFormat:@"%@%@",BaseURL,httpValidateConsumerEmailID];
+    [reqHandler makeRequestByPost:jsonString  serverUrl:url completion:^(NSDictionary *result, NSError *error) {
+        
+        if ( error == nil) {
+            NSLog(@"result -%@",result);
+           
+           
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self hideProgressHud];
+                 [self pushToNextScreen];
+                
+            });
+        }
+        else
+        {
+         
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSDictionary *errorObj =[error valueForKey:@"Error"];
+  
+                NSString *errorDescription = [errorObj valueForKey:@"error_description"];
+                NSLog(@"errorDescription ....%@",errorDescription);
+                if (errorDescription == nil || [errorDescription isEqualToString:@""]) {
+                    errorDescription = internalError;
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self hideProgressHud];
+                    [self showAlertWithTitle:statusStr andMessage:errorDescription andActionTitle:ok actionHandler:nil];
+                });
+            });
+        }
+    }];
+  
+}
+
+-(void)pushToNextScreen{
+    [consumer setEmailId:txtemail.text];
+    [consumer setPassword:txtPassword.text];
+    
+    
+    RegistrationQuestionController *registerVC =[self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationQuestionController"];
+    registerVC.filteredQuestions = filteredQuestions;
+    registerVC.questionsArray = questionsArray;
+    registerVC.groupOptionsArray = groupOptionsArray;
+    registerVC.consumerToRegister = consumer;
+    [self.navigationController pushViewController:registerVC animated:NO];
 }
 
 -(void)infoOkAction:(id)sender{
@@ -233,10 +306,7 @@
     }else if (txtPassword.text.length == 0){
         
         [self showAlertWithTitle:invalidPasswordAlert andMessage:emptyLoginPassword andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-            
             [self clearPasswordtextField];
-           
-            
         }];
         
         return false;
@@ -258,17 +328,19 @@
 //Password Validation
 -(BOOL)isValidPassword:(NSString *)passwordString{
     
-    NSString *passRegex =@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,20}";
+    NSString *passRegex =@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$#!%*?&])[A-Za-z\\d$@$!#%*?&]{8,20}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", passRegex];
     return [emailTest evaluateWithObject:passwordString];
 }
 -(void)clearEmailTextField
 {   self.txtemail.text = nil;
+    [self setButtonEnabled:NO forButton:btnNext];
     //[txtemail becomeFirstResponder];
     
 }
 -(void)clearPasswordtextField{
     self.txtPassword.text = nil;
+    [self setButtonEnabled:NO forButton:btnNext];
     //[txtPassword becomeFirstResponder];
 }
 
@@ -285,10 +357,10 @@
     questionsArray = [[NSMutableArray alloc] init];
     groupOptionsArray = [[NSMutableArray alloc] init];
     
-    [reqHandler makeRequest:nil serverUrl:httpGetAllRecoveryQuestions completion:^(NSDictionary *result, NSError *error) {
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,httpGetAllRecoveryQuestions];
+    [reqHandler makeRequest:nil serverUrl:url completion:^(NSDictionary *result, NSError *error) {
         if (error == nil) {
             
-          
             NSDictionary *resultdict = [result objectForKey:httpResult];
             NSLog(@"Results -- %@",resultdict);
             
@@ -312,9 +384,12 @@
                 
             }
             filteredQuestions = [[NSMutableArray alloc] initWithArray:questionsArray];
+        }else{
+            
         }
+        
+        NSLog(@"Error Description :%@",error.localizedDescription);
     }];
-    
 }
 
 #pragma mark Table View Delegate methods
@@ -322,8 +397,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:groupOptionTableCellIdentifier];
     MemberGroupModel *grpModel = [groupOptionsArray objectAtIndex:indexPath.row];
     cell.textLabel.text = grpModel.groupName;
-    
-    
    return cell;
 }
 
@@ -355,5 +428,16 @@
 //The event handling method for Scrreen touch
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     [self removePopupView:tblGroupOptions];
+}
+
+-(void)fixButtonImages{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+    NSLog(@"screen widht %f an hedight %f",screenWidth,screenHeight);
+    
+    btnSelectGrp.imageEdgeInsets=UIEdgeInsetsMake(0, screenWidth-75, 0, 0);
+    btnSelectGrp.titleEdgeInsets = UIEdgeInsetsMake(0, -18, 0, 0);
+   
 }
 @end

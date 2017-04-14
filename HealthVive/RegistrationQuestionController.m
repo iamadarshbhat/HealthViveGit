@@ -55,14 +55,14 @@
     [super setScrollView:scrollView andTextField:activeField];
     [super setTableView:questionsTableView andTableViewCell:nil withIdentifier:questionTableCellIdentifier andData:questionsArray];
    
+  
     
-    
-    UIImage *image = [UIImage imageNamed:nextArrow];
-    [self setImageAndTextInsetsToButton:btnQuestionOne andImage:image withLeftSpace:-30];
-    [self setImageAndTextInsetsToButton:btnQuestionTwo andImage:image withLeftSpace:-30];
-    [self setImageAndTextInsetsToButton:btnQuestionthree andImage:image withLeftSpace:-30];
+   // UIImage *image = [UIImage imageNamed:nextArrow];
+   // [self setImageAndTextInsetsToButton:btnQuestionOne andImage:image withLeftSpace:-30];
+   // [self setImageAndTextInsetsToButton:btnQuestionTwo andImage:image withLeftSpace:-30];
+   // [self setImageAndTextInsetsToButton:btnQuestionthree andImage:image withLeftSpace:-30];
 
-    
+    [self fixButtonImages];
     [btnQuestionOne setTag:question1Tag];
     [btnQuestionTwo setTag:question2Tag];
     [btnQuestionthree setTag:question3Tag];
@@ -96,9 +96,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+     }
+
+-(void)viewDidAppear:(BOOL)animated{
+   
+}
 #pragma mark Table View Delegate methods
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [questionsTableView flashScrollIndicators];
     UITableViewCell *cell;
     if(cell == nil){
         cell = [tableView dequeueReusableCellWithIdentifier:questionTableCellIdentifier];
@@ -209,6 +216,8 @@
         [questionsTableView setHidden:NO];
         [activeField resignFirstResponder];
         [self addPopupView:questionsTableView];
+    }else{
+         [self showAlertWithTitle:errorAlert andMessage:noInternetMessage andActionTitle:ok actionHandler:nil];
     }
 }
 
@@ -221,6 +230,8 @@
      [questionsTableView setHidden:NO];
      [activeField resignFirstResponder];
     [self addPopupView:questionsTableView];
+     }else{
+          [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
      }
 }
 
@@ -233,6 +244,8 @@
      [questionsTableView setHidden:NO];
      [activeField resignFirstResponder];
     [self addPopupView:questionsTableView];
+     }else{
+          [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
      }
 }
 
@@ -326,6 +339,25 @@
 //The event handling method for Scrreen touch
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     [self removePopupView:questionsTableView];
+}
+
+-(void)fixButtonImages{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+    NSLog(@"screen widht %f an hedight %f",screenWidth,screenHeight);
+    
+    btnQuestionOne.imageEdgeInsets=UIEdgeInsetsMake(0, screenWidth-80, 0, 0);
+    btnQuestionOne.titleEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0);
+    
+    btnQuestionTwo.imageEdgeInsets=UIEdgeInsetsMake(0, screenWidth-80, 0, 0);
+    btnQuestionTwo.titleEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0);
+
+    btnQuestionthree.imageEdgeInsets=UIEdgeInsetsMake(0, screenWidth-80, 0, 0);
+    btnQuestionthree.titleEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0);
+
+    
+    
 }
 
 @end

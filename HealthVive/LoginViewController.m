@@ -10,18 +10,30 @@
 #import "RegistrationQuestionController.h"
 #import "ForgotPasswordViewController.h"
 #import "RegistrationController.h"
-#import "Account.h"
+#import "Account+CoreDataProperties.h"
 #import "CoreDataManager.h"
 #import "ConsumerProfileViewController.h"
 #import "TabBarController.h"
+#import "Globals.h"
+#import "Consumer.h"
+
+
 
 @interface LoginViewController ()
 {
     CGFloat screenHeight;
     NSString *email;
     NSString *password;
-    int userStatus;
-
+    int accountStatus;
+    int consumerId;
+    Globals *globals;
+    CoreDataManager *cdm;
+    Consumer *consumer;
+    NSDate *dobDate;
+    
+    NSString *userPlanName;
+    NSDate *planExpiryDate;
+    
 }
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textFieldTopConstraint;
 
@@ -38,9 +50,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutUser:) name:LogoutNotification object:nil];
     
-    CoreDataManager *cdm = [[CoreDataManager alloc] init];
-    _managedObjectContext = cdm.managedObjectContext;
+     cdm = [CoreDataManager sharedManager];
+    consumer =[[Consumer alloc]init];
+    
+    globals =[Globals sharedManager];
 
     
     self.navigationController.navigationBar.hidden = YES;
@@ -57,7 +72,7 @@
     UIView *paddingView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     
     self.emailTxtField.leftView = paddingView1;
-   self.emailTxtField.leftViewMode = UITextFieldViewModeAlways;
+    self.emailTxtField.leftViewMode = UITextFieldViewModeAlways;
     
     
    [self applyColorToPlaceHolderText:self.emailTxtField];
@@ -81,8 +96,19 @@
     _defaults =[NSUserDefaults standardUserDefaults];
     [_defaults synchronize];
 
-    
+
+    //self.emailTxtField.text = @"refertree999@gmail.com";
+    //self.passwordTxtField.text = @"Welcome@123";
     [self setButtonEnabled:NO forButton:_loginBtn];
+
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     
 }
 
@@ -145,54 +171,68 @@
 
 
 - (IBAction)loginButtonPressed:(id)sender {
-    
-    TabBarController *tabBar =[[TabBarController alloc]init];
-    [self presentViewController:tabBar animated:NO completion:nil];
-    
-    if ([self validateForm]) {
+      
+   if ([self validateForm]) {
                 
         if ([self checkInternetConnection]) {
             
             [self callLoginServices];
            
         }
- 
-   }
+        else
+        {
+             [self showProgressHudWithText:offlineLogin];
+            [self performSelector:@selector(loginOfflineMode) withObject:nil afterDelay:1.5];
+          
+           
+         
+        }
+    }
+    }
+
+-(void)loginOfflineMode
+{
+    [self fetchAccountDetails];
+    if ([globals.email isEqualToString:_emailTxtField.text]&&[globals.password isEqualToString:_passwordTxtField.text]) {
+        
+        [_defaults setBool:NO forKey:loginStatus];
+        [self hideProgressHud];
+        [self checkAccountStatus:globals.accountStatus];
+        
+    }
+    else
+    {
+        [self showAlertWithTitle:errorAlert andMessage:invalidEmailMsg andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+            _passwordTxtField.text = nil;
+            [self hideProgressHud];
+            
+        }];
+    }
 }
 
 -(void)callLoginServices
 {
-    
     email =[self getTrimmedStringForString:self.emailTxtField.text];
     password =[self getTrimmedStringForString:self.passwordTxtField.text];
     NSString *paramString =[NSString stringWithFormat:@"username=%@&password=%@&grant_type=%@",email,password,@"password"];
     APIHandler *reqHandler =[[APIHandler alloc] init];
-    [self showProgressHudWithText:@""];
-    [reqHandler makeRequestByPost:paramString                                       serverUrl:LoginAuthentication completion:^(NSDictionary *result, NSError *error) {
+    [self showProgressHudWithText:onlineLogin];
+     NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,LoginAuthentication];
+    
+    [reqHandler makeRequestByPost:paramString serverUrl:url completion:^(NSDictionary *result, NSError *error) {
         
         if ( error == nil) {
             NSLog(@"result -%@",result);
-            NSString *accesToken =[result valueForKey:@"access_token"];
-            [_defaults setValue:accesToken forKey:@"access_token"];
+            NSString *accesToken =[result valueForKey:access_tokenKey];
+            [_defaults setValue:accesToken forKey:access_tokenKey];
+            [_defaults setBool:YES forKey:loginStatus];
+            NSLog(@"%@",[_defaults valueForKey:access_tokenKey]);
+       
+            [self getBasicUserDetails:accesToken];
             
-            NSLog(@"%@",[_defaults valueForKey:@"access_token"]);
-            userStatus = 2;
-            
-            
-            [self saveLoginAccountDetails];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self hideProgressHud];
-                TabBarController *tabBar =[[TabBarController alloc]init];
-                [self presentViewController:tabBar animated:NO completion:nil];
-                
-            });
-            
-        }
+            }
         else
         {
-            
             dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *errorDescription =[error valueForKey:@"error_description"];
                 NSString *errorStatus =[error valueForKey:@"error"];
@@ -205,13 +245,12 @@
                 else{
                     errorTitle = statusStr;
                 }
-                
                 [self getTheUserStatus:errorStatus];
-                
+                [self saveLoginAccountDetails];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                      [self hideProgressHud];
                     [self showAlertWithTitle:errorTitle andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-                        
+                        [self hideProgressHud];
                         self.passwordTxtField.text = nil;
                     }];
                     
@@ -228,62 +267,97 @@
     
 
 - (IBAction)registerBtnPressed:(id)sender {
-    RegistrationController *registration =[self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationControllerID"];
+   
+    RegistrationController *registration =[self.storyboard instantiateViewControllerWithIdentifier:RegistrationControllerID];
     [self.navigationController pushViewController:registration animated:YES];
     
 }
 
--(void)grayOutButton
+-(void)getBasicUserDetails:(NSString*)token
 {
+     APIHandler *reqHandler =[[APIHandler alloc] init];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,getBasicProfileDetails];
+
+     [reqHandler makeRequest:token serverUrl:url completion:^(NSDictionary *result, NSError *error) {
+         
+         if (error == nil) {
+             
+             NSLog(@"%@",result);
+                NSDictionary *dict =[result valueForKey:@"Result"];
+             globals.password =_passwordTxtField.text;
+             globals.email =[dict valueForKey:@"EmailID"];
+             globals.accountStatus = [[dict valueForKey:@"AccountStatus"]intValue];
+             globals.consumerId =[[dict valueForKey:@"ConsumerID"]intValue];
+             consumerId = globals.consumerId;
+             userPlanName =[dict valueForKey:@"PlanName"];
+             NSString *expiry =[dict valueForKey:@"ExpiryDate"];
+          planExpiryDate =    [self getDateFromString:expiry WithFormat:@"yyyy-MM-dd'T'HH:mm:ss.SS"];
+           // planExpiryDate  = [self returnDatefromString:expiry withFormat:@"yyyy/MM/dd'T'HH:mm:ss"];
+           
+             NSLog(@"Expiry Date -%@",planExpiryDate);
+             
+             [_defaults setValue:[NSNumber numberWithInt:consumerId] forKey:@"ConsumerID"];
+           
+             [self saveLoginAccountDetails];
+             [self callGetConsumerservices ];
+             
+         
+         }
+         else{
+             
+         }
+         
+         
+         
+     }];
+    
     
 }
 
-//To get the status of the user
-
 -(void)getTheUserStatus:(NSString*)status
 {
-  
+    
     if ([status isEqualToString:@"Registered"]) {
         
-     
-        
-        userStatus = 1;
+        globals.accountStatus = 1;
         
         
     }
     else if ([status isEqualToString:@"Rejected"])
     {
-        userStatus= 3;
-      
+         globals.accountStatus= 3;
+        
     }
     else if ([status isEqualToString:@"Suspended"])
     {
-        userStatus = 4;
-    
+         globals.accountStatus = 4;
+        
     }
-
+    
     else if ([status isEqualToString:@"Deactivated"])
     {
-        userStatus = 5;
-     
+         globals.accountStatus = 5;
+        
     }
-
+    
     else if ([status isEqualToString:@"UnAuthenticated"])
     {
-        userStatus = 6;
-     
+         globals.accountStatus = 6;
+        
     }
     else if ([status isEqualToString:@"ApprovedWithEmailUnverified"])
     {
-       userStatus = 7;
+         globals.accountStatus = 7;
     }
-
+    
 }
+
+
 
 - (IBAction)forgotBtnPressed:(id)sender {
     
   ForgotPasswordViewController *forgotPwd =[self.storyboard instantiateViewControllerWithIdentifier:@"ForgotPasswordViewController"];
-    [self.navigationController pushViewController:forgotPwd animated:NO];
+    [self.navigationController pushViewController:forgotPwd animated:YES];
     
     
 }
@@ -331,49 +405,265 @@
 
 -(void)saveLoginAccountDetails
 {
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Account"];
-    NSMutableArray *accountArray =[[NSMutableArray alloc]init];
-    accountArray = [[_managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    for (int i=0; i<accountArray.count; i++) {
-        
-        Account *status =[accountArray objectAtIndex:i];
-        NSLog(@"email-%@ ,status-%@ ",status.email,status.account_status);
+   
+   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email = %@",self.emailTxtField.text];
+    NSArray *accountArray =[cdm fetchDataFromEntity:accountEntity predicate:predicate];
+
+    if(accountArray.count>0) {
+        Account *status =[accountArray lastObject];
+        NSLog(@"email-%@ ,status-%hd ",status.email,status.account_status);
         
         if ([email isEqualToString:status.email]) {
-            
-            NSLog(@"the mail id is alreay exist");
+            globals.consumerId = status.consumer_id;
+            globals.email  = status.email;
+            globals.password = status.password;
+            userPlanName = status.subscribed_plan;
+            planExpiryDate = status.plan_expiry;
+          
+            [self updateUserStatusToDataBase];
         }
         else
         {
-            NSManagedObjectContext *context = [self managedObjectContext];
-            NSManagedObject *account = [NSEntityDescription insertNewObjectForEntityForName:@"Account" inManagedObjectContext:context];
-            [account setValue:email forKey:@"email"];
-            [account setValue:password forKey:@"password"];
-            [account setValue:[NSNumber numberWithInt:userStatus] forKey:@"account_status"];
-            
-            NSError *error = nil;
-            // Save the object to persistent store
-            if (![context save:&error]) {
-                NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-            }
-            
+            [self saveAccontDetails];
 
         }
+      
+    }
+    else{
+        
+        [self saveAccontDetails];
+
         
     }
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+
+#pragma mark- Database methods
+//Save Data To Databse
+-(void)saveAccontDetails
 {
-    [super viewWillAppear:animated];
-     self.navigationController.navigationBar.hidden = YES;
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setValue:globals.email forKey:@"email"];
+    [dict setValue:globals.password forKey:@"password"];
+    [dict setValue: [NSNumber numberWithInt:globals.accountStatus] forKey:@"account_status"];
+    [dict setValue: [NSNumber numberWithInt:globals.consumerId] forKey:@"consumer_id"];
+    [dict setValue:userPlanName forKey:@"subscribed_plan"];
+    [dict setValue:planExpiryDate forKey:@"plan_expiry"];
+
+    [cdm saveDetailsToEntity:accountEntity andValues:dict];
+}
+
+//Fetch data from database
+-(void)fetchAccountDetails
+{
+    
+       NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email = %@",self.emailTxtField.text];
+  
+    NSArray *accountArray =[cdm fetchDataFromEntity:accountEntity predicate:predicate];
+    if(accountArray.count>0) {
+        Account *status =[accountArray lastObject];
+        NSLog(@"email-%@ ,status-%hd ",status.email,status.account_status);
+        globals.accountStatus= status.account_status;
+        globals.consumerId = status.consumer_id;
+        globals.email  = status.email;
+        globals.password = status.password;
+     
+       }
     
 }
 
+//updating Datbase
+-(void)updateUserStatusToDataBase
+{
+   
+   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"email = %@",self.emailTxtField.text];
+  
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setValue:globals.email forKey:@"email"];
+    [dict setValue:globals.password forKey:@"password"];
+    [dict setValue: [NSNumber numberWithInt:globals.accountStatus] forKey:@"account_status"];
+    [dict setValue: [NSNumber numberWithInt:globals.consumerId] forKey:@"consumer_id"];
+    [dict setValue:userPlanName forKey:@"subscribed_plan"];
+    [dict setValue:planExpiryDate forKey:@"plan_expiry"];
+    [cdm updateDeatailsToEntity:accountEntity andPredicate:predicate andValues:dict];
+}
 
+//To check if the 
+-(void)checkAccountStatus:(int)statusType
+{
+    TabBarController *tabBar =[[TabBarController alloc]init];
+    switch (statusType) {
+        case Registered:
+        
+            break;
+        case Approved:
+            
+                [self.navigationController pushViewController:tabBar animated:YES];
+            
+            
+            break;
+        case Rejected:
+            
+            break;
+        case Suspended:
+            
+                [self showAlertWithTitle:statusStr andMessage:suspendedError andActionTitle:ok actionHandler:nil];
+                
+                break;
+        case Deactivated:
+         
+               [self showAlertWithTitle:statusStr andMessage:deactivatedError andActionTitle:ok actionHandler:nil];
+            
+            
+            break;
+        case UnAuthenticated:
+          
+            
+            break;
+        case ApprovedWithEmailUnverified:
+            
+            break;
+           default:
+            break;
+    }
+}
+
+
+
+//Get profile Information from Server
+
+-(void)callGetConsumerservices
+{
+    
+    NSString *token =[NSString stringWithFormat:@"%@",[_defaults valueForKey:access_tokenKey]];
+    
+    APIHandler *reqHandler =[[APIHandler alloc] init];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseURL,getConsumerProfile];
+    [reqHandler makeRequest:token serverUrl:url completion:^(NSDictionary *result, NSError *error) {
+        
+        if (error == nil) {
+            NSLog(@"%@",result);
+            NSDictionary *dict =[result valueForKey:@"Result"];
+            
+            consumer.cid =[[dict valueForKey:@"ID"] intValue];
+            consumer.consumerId =[[dict valueForKey:@"ConsumerID"] integerValue];
+            consumer.emailId = [dict valueForKey:@"EmailID"];
+            consumer.title =[dict valueForKey:@"Title"];
+            consumer.foreName =[dict valueForKey:@"ForeName"];
+            consumer.surName =[dict valueForKey:@"LastName"];
+            consumer.gender =[dict valueForKey:@"Gender"];
+            consumer.dob =[dict valueForKey:@"DateOfBirth"];
+            
+             dobDate = [self returnDatefromString:consumer.dob withFormat:@"yyyy/MM/dd'T'HH:mm:ss"];
+            
+            consumer.address1 = [dict valueForKey:@"Address1"];
+            consumer.address2 =[dict valueForKey:@"Address2"];
+            consumer.city = [dict valueForKey:@"City"];
+            consumer.post_code =[dict valueForKey:@"PostCode"];
+            consumer.country =[dict valueForKey:@"Country"];
+            consumer.home_phone =[dict valueForKey:@"HomePhoneNumber"];
+            consumer.mobile_phone =[dict valueForKey:@"MobilePhoneNumber"];
+            consumer.alternate_email =[dict valueForKey:@"AltEmailID"];
+            
+            
+        
+            if ([consumer.alternate_email isKindOfClass:[NSNull class]]) {
+                consumer.alternate_email = nil;
+            }
+            if ([consumer.home_phone isKindOfClass:[NSNull class]]) {
+                consumer.home_phone = nil;
+            }
+            if ([consumer.mobile_phone isKindOfClass:[NSNull class]]) {
+                consumer.mobile_phone = nil;
+            }
+            if ([consumer.country isKindOfClass:[NSNull class]]) {
+                consumer.country = nil;
+            }
+            if ([consumer.address1 isKindOfClass:[NSNull class]]) {
+                consumer.address1 = nil;
+            }
+            
+            if ([consumer.address2 isKindOfClass:[NSNull class]]) {
+                consumer.address2 = nil;
+            }
+            
+            if ([consumer.post_code isKindOfClass:[NSNull class]]) {
+                consumer.post_code = nil;
+            }
+            if ([consumer.city isKindOfClass:[NSNull class]]) {
+                consumer.city = nil;
+            }
+            
+            // dateString = [self getDateString:dob withFormat:@"yyyy-MM-dd"];
+            
+            [self saveConsumerDetails];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self hideProgressHud];
+                
+                TabBarController *tabBar =[[TabBarController alloc]init];
+                [self.navigationController pushViewController:tabBar animated:YES];
+                
+            });
+
+       
+           
+              }
+        else
+        {
+            NSDictionary *errorObj =[error valueForKey:@"Error"];
+            NSString *errorDescription = [errorObj valueForKey:@"error_description"];
+            NSLog(@"errorDescription ....%@",errorDescription);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showAlertWithTitle:statusStr andMessage:errorDescription andActionTitle:ok actionHandler:nil];
+            });
+            
+        }
+        
+    }];
+    
+    
+}
+-(void)saveConsumerDetails
+{
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setValue:consumer.title forKey:@"title"];
+        [dict setValue:consumer.emailId forKey:@"email"];
+        [dict setValue:consumer.foreName forKey:@"fore_name"];
+        [dict setValue:consumer.surName forKey:@"sur_name"];
+        [dict setValue:dobDate forKey:@"dob"];
+        [dict setValue:consumer.gender forKey:@"gender"];
+        [dict setValue:consumer.address1 forKey:@"address1"];
+        [dict setValue:consumer.address2 forKey:@"address2"];
+        [dict setValue:consumer.city forKey:@"city"];
+        [dict setValue:consumer.post_code forKey:@"post_code"];
+        [dict setValue:consumer.country forKey:@"country"];
+        [dict setValue:consumer.home_phone forKey:@"home_phone"];
+        [dict setValue:consumer.mobile_phone forKey:@"mobile_phone"];
+        [dict setValue:consumer.alternate_email forKey:@"alternate_email"];
+        [dict setValue:[NSNumber numberWithUnsignedInteger:consumerId] forKey:@"consumer_id"];
+        [dict setValue:[NSNumber numberWithInt:consumer.cid] forKey:@"id"];
+        
+        
+        [cdm saveDetailsToEntity:profileEntity andValues:dict];
+        
+    }
+
+-(NSDate*)returnDatefromString:(NSString*)dateStr withFormat:(NSString*)format
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:format];
+    return [dateFormat dateFromString:dateStr];
+}
+
+-(void)logoutUser:(NSNotification *)logoutNotification{
+    self.emailTxtField.text = @"";
+    self.passwordTxtField.text = @"";
+    [self setButtonEnabled:NO forButton:_loginBtn];
+}
 @end
 
 

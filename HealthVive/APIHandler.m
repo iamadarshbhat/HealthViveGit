@@ -56,8 +56,11 @@
         }
         else
         {
-//            id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-//            completion(nil,dictionary);
+            if(statusCode != 0){
+                id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+                completion(nil,dictionary);
+            }
+           
            
             NSLog(@"Please check the server connection");
         }
@@ -124,8 +127,10 @@
         else
         {
             //To show the error msgs when user removed or deactivated or suspended
+            if(statusCode != 0){
             id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             completion(nil,dictionary);
+            }
         }
         
     }];
@@ -194,8 +199,10 @@
         else
         {
             //To show the error msgs when user removed or deactivated or suspended
+            if(statusCode != 0){
             id dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
             completion(nil,dictionary);
+            }
         }
         
     }];

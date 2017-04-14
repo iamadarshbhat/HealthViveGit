@@ -11,5 +11,4 @@
 @interface MemberGroupModel : NSObject
 @property NSInteger groupId;
 @property NSString *groupName;
-
 @end

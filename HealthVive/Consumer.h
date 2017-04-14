@@ -19,5 +19,16 @@
 @property NSString *surName;
 @property NSString *gender;
 @property NSString *dob;
+@property NSString  * address1;
+@property NSString  * address2;
+@property NSString  * city;
+@property NSString  *post_code;
+@property NSString  * country;
+@property NSString  * home_phone;
+@property NSString  * mobile_phone;
+@property NSString  * alternate_email;
+@property NSString *town;
+@property(nonatomic,assign) int cid;
+@property(nonatomic,assign)int consumer_id;
 -(NSDictionary *)consumerDic:(Consumer *)consumer;
 @end

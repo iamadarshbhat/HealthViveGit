@@ -12,9 +12,17 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profile_imageView;
 @property (weak, nonatomic) IBOutlet UIButton *addDetailsBtn;
 @property (weak, nonatomic) IBOutlet UITableView *consumeContactTable;
+
+
+
 @property (weak, nonatomic) IBOutlet UILabel *usrNameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *usrEmailLbl;
 @property (weak, nonatomic) IBOutlet UILabel *dobLbl;
 @property (weak, nonatomic) IBOutlet UILabel *genderLbl;
+@property (weak, nonatomic) IBOutlet UIView *addDetailsView;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+
+
+@property(nonatomic,strong)NSManagedObjectContext*mangedObjectContext;
 
 @end

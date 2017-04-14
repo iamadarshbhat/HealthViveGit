@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "Reachability.h"
+typedef void (^AlertBlock)(UIAlertAction *action);
 @interface BaseViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 
@@ -39,6 +40,7 @@
 
 
 -(BOOL)IsValidEmail:(NSString *)checkString;
+- (BOOL)numberValidation:(NSString *)text;
 -(void)setImageAndTextInsetsToButton:(UIButton *)btn andImage:(UIImage *) image withLeftSpace:(CGFloat)space;
 -(void)setImageInsetsToButton:(UIButton *)btn andImage:(UIImage *)image;
 -(void)setLeftImageForTextField:(UITextField *)textField withImage:(UIImage *)image;
@@ -47,13 +49,17 @@
 -(void)setTintColor:(UIColor*)color toButton:(UIButton *)btn;
 -(void)setAlpha:(CGFloat)alpha toBtn:(UIButton*)button;
 -(NSString *)getDateString:(NSDate*)date withFormat:(NSString*)formatString;
+-(NSDate *)getDateFromString:(NSString *)dateStr WithFormat:(NSString *)format;
 -(void)showProgressHudWithText:(NSString *)text;
 -(void)hideProgressHud;
 -(BOOL)checkInternetConnection;
 -(void)setNaviagationBarWithTitle:(NSString *)title;
--(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)msg andActionTitle:(NSString*)actionTitle actionHandler:(void (^ __nullable)(UIAlertAction *action))handler;
+-(void)applyShadowToView:(UIView*)view;
+-(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)msg andActionTitle:(NSString*)actionTitle actionHandler:(AlertBlock)handler;
 
+-(void)handleServerError:(NSError *)error;
 
+-(NSString*)getEventType:(LocalEvenType)eveType;
 
 @end
 

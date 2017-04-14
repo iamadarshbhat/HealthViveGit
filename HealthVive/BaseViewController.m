@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
-
-@interface BaseViewController ()
+@interface BaseViewController (){
+    CGFloat screenHeight;
+}
 
 @end
 
@@ -99,6 +100,7 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     parentScrollView.contentInset = contentInsets;
     parentScrollView.scrollIndicatorInsets = contentInsets;
+    [parentScrollView scrollRectToVisible:parentScrollView.frame animated:YES];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -137,7 +139,7 @@
 
 //Applies place holder text color
 -(void)applyColorToPlaceHolderText:(UITextField *)textField{
-    UIColor *color = [UIColor colorWithRed:224.0/255.0f green:224.0/255.0f blue:224.0/255.0f alpha:1];
+    UIColor *color = [UIColor colorWithRed:142.0/255.0f green:142.0/255.0f blue:142.0/255.0f alpha:1];
     textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:textField.placeholder attributes:@{NSForegroundColorAttributeName: color}];
 }
 
@@ -174,10 +176,10 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
 }
 -(void)applyCornerColorToView:(UIView *)view withColor: (UIColor *)color;{
     [view.layer setBorderColor:color.CGColor];
-    [view.layer setBorderWidth:2];
+    [view.layer setBorderWidth:1];
 }
 
--(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)msg andActionTitle:(NSString*)actionTitle actionHandler:(void (^ __nullable)(UIAlertAction *action))handler
+-(void)showAlertWithTitle:(NSString*)title andMessage:(NSString*)msg andActionTitle:(NSString*)actionTitle actionHandler:(AlertBlock)handler
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:msg preferredStyle:UIAlertControllerStyleAlert];
     
@@ -186,6 +188,8 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
+
 
 
 -(NSString *)getTrimmedStringForString:(NSString *)string{
@@ -204,15 +208,18 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:checkString];
 }
+- (BOOL)numberValidation:(NSString *)text {
+    NSString *regex = @"^([0-9]*|[0-9]*[.][0-9]*)$";
+    NSPredicate *test = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    BOOL isValid = [test evaluateWithObject:text];
+    return isValid;
+}
 
 //Gives the image and text insets
 -(void)setImageAndTextInsetsToButton:(UIButton *)btn andImage:(UIImage *) image withLeftSpace:(CGFloat)space{
 //    btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
 //    btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., space);
-   
-   
-       
-    
+
     btn.imageEdgeInsets = UIEdgeInsetsMake(0., btn.frame.size.width - (image.size.width)-space, 0., 0.);
     btn.titleEdgeInsets = UIEdgeInsetsMake(0.,-16.0, 0., -space);
     
@@ -254,12 +261,22 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
 
 //Gives the date string with the given format
 -(NSString*)getDateString:(NSDate *)date withFormat:(NSString *)formatString{
+   
     NSDateFormatter *dateFormat=[[NSDateFormatter alloc]init];
     dateFormat.dateStyle=NSDateFormatterMediumStyle;
+     [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
     [dateFormat setDateFormat:formatString];
     return  [NSString stringWithFormat:@"%@",[dateFormat  stringFromDate:date]];
 }
 
+
+-(NSDate *)getDateFromString:(NSString *)dateStr WithFormat:(NSString *)format{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormatter setDateFormat:format];
+    NSDate *date = [dateFormatter dateFromString:dateStr];
+    return date;
+}
 //Shows the HUD
 -(void)showProgressHudWithText:(NSString *)text{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -341,9 +358,9 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
         statusString= [NSString stringWithFormat:connectionRequiredFormatString, statusString];
     }
     
-    if(connectionRequired || !isReachable){
-       [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
-    }
+//    if(connectionRequired || !isReachable){
+//       [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
+//    }
     NSLog(@"isReachable %@,%hhu",statusString,isReachable);
     return isReachable;
     
@@ -360,6 +377,69 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:tex
     [self.navigationController.navigationItem.leftBarButtonItem setTitle:@""];
     self.navigationController.navigationBar.barTintColor = NAVBAR_BCG_COLOR;
     self.navigationController.navigationBar.translucent = NO;
+    
+    self.navigationController.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
 }
+
+-(void)applyShadowToView:(UIView *)view{
+    view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    view.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+    view.layer.shadowRadius = 1.5f;
+    view.layer.shadowOpacity = 0.2f;
+}
+// to get Selected EventType
+-(NSString*)getEventType:(LocalEvenType)eveType
+{
+    NSString *eventTypeString;
+    switch (eveType) {
+        case HealthEvent:
+            eventTypeString = @"Health";
+            break;
+        case Calendarevent:
+            eventTypeString = @"Calendar";
+            break;
+        case SummaryEvent:
+            eventTypeString = @"Summary";
+            break;
+        case MessageEvent:
+            eventTypeString = @"Message";
+            break;
+            
+        case ProviderResponseEvent:
+            eventTypeString = @"Provider Response";
+            break;
+        default:
+            break;
+    }
+    
+    return eventTypeString;
+}
+
+-(void)handleServerError:(NSError *)error{
+    
+    NSDictionary *errorDict =  [error valueForKey: @"Error"];
+    NSString *errorDescription =[errorDict valueForKey:@"error_description"];
+    
+    
+    BOOL isUserActive = [[error valueForKey:@"IsUserActive"] boolValue];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self hideProgressHud];
+    });
+    
+    
+    if(!isUserActive){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self showAlertWithTitle:errorAlert andMessage:errorDescription andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:LogoutNotification object:nil];
+                [self.tabBarController.navigationController popViewControllerAnimated:YES];
+            }];
+            
+        });
+    }
+}
+
+
+
 
 @end

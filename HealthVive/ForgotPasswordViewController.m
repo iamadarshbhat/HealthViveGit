@@ -84,83 +84,92 @@
 
 - (IBAction)resetPasswordClicked:(id)sender {
     
-    if (_emailTextField.text.length>0) {
-        
+   if (_emailTextField.text.length>0) {
+           if ([self checkInternetConnection]) {
         if ([self IsValidEmail:self.emailTextField.text]) {
-            
-            NSError *writeError = nil;
-            
-            NSDictionary * dict = [[NSDictionary alloc] initWithObjectsAndKeys:self.emailTextField.text,@"emailID",nil];
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
-            NSLog(@"%@",writeError);
-            
-            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            
-            NSLog(@"%@",jsonString);
-            
-            
-            APIHandler *reqHandler =[[APIHandler alloc]init];
-            [reqHandler makeRequestByPost:jsonString serverUrl:ForgotPassword completion:^(NSDictionary *result, NSError *error) {
+         
+                NSError *writeError = nil;
                 
-                if (error == nil) {
+                NSDictionary * dict = [[NSDictionary alloc] initWithObjectsAndKeys:self.emailTextField.text,@"emailID",nil];
+                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&writeError];
+                NSLog(@"%@",writeError);
+                
+                NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                
+                NSLog(@"%@",jsonString);
+                
+                
+                APIHandler *reqHandler =[[APIHandler alloc]init];
+           NSString *url =  [NSString stringWithFormat:@"%@%@",BaseURL,ForgotPassword];
+                [reqHandler makeRequestByPost:jsonString serverUrl:url completion:^(NSDictionary *result, NSError *error) {
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error == nil) {
                         
-                        [self showAlertWithTitle:thanks andMessage:resetPasswordLink andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
                             
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
+                            [self showAlertWithTitle:thanks andMessage:resetPasswordLink andActionTitle:ok actionHandler:^(UIAlertAction *action) {
                                 
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    
+                                    _emailTextField.text = nil;
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                });
+                                
+                                
+                            }];
+                            
+                            
+                            
+                        });
+                        
+                    }
+                    else{
+                        
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            [self showAlertWithTitle:errorAlert andMessage:forgotPassEmailAlert andActionTitle:ok actionHandler:^(UIAlertAction *action) {
                                 _emailTextField.text = nil;
-                                [self.navigationController popViewControllerAnimated:NO];
-                            });
+                                
+                            }];
                             
                             
-                        }];
+                        });
                         
                         
-                        
-                    });
-                    
-                }
-                else{
+                    }
                     
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        
-                        [self showAlertWithTitle:errorAlert andMessage:forgotPassEmailAlert andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-                            _emailTextField.text = nil;
-                            
-                        }];
-                        
-                        
-                    });
+                }];
+                
+            }
+            else
+            {
+             
+                [self showAlertWithTitle:errorAlert andMessage:forgotPassEmailAlert andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+                    _emailTextField.text = nil;
                     
-                    
-                }
+                }];
                 
                 
-            }];
+            }
+            
+          
             
         }
         else{
             
-            [self showAlertWithTitle:invalidEmailIdAlert andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
+            [self showAlertWithTitle:errorAlert andMessage:offlineStatus andActionTitle:ok actionHandler:^(UIAlertAction *action) {
                 _emailTextField.text = nil;
                 
             }];
             
-            
         }
-        
+       
     }
-    else{
-        [self showAlertWithTitle:invalidEmailIdAlert  andMessage:emptyLoginEmail andActionTitle:ok actionHandler:^(UIAlertAction *action) {
-            _emailTextField.text = nil;
-            
-        }];
-        
-    }
+    
+  
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -53,11 +53,14 @@
     [self setCalendarForMaximumDate];
     titlesArray = [NSArray arrayWithObjects:@"Mr",@"Mrs",@"Miss",@"Ms", nil];
     [self setImageAndTextInsetsToButton:btnTitle andImage:[UIImage imageNamed:dropDown] withLeftSpace:0.0];
-    [self setImageAndTextInsetsToButton:btnSelectDate andImage:[UIImage imageNamed:datePickerImage] withLeftSpace:-30.0];
+   // [self setImageAndTextInsetsToButton:btnSelectDate andImage:[UIImage imageNamed:datePickerImage] withLeftSpace:-30.0];
+    [self fixButtonImages];
     [self makeGenderButtonDeSelected:btnMale];
     [self makeGenderButtonDeSelected:btnFemale];
     [self makeGenderButtonDeSelected:btnOther];
     [self setButtonEnabled:NO forButton:btnRegister];
+    [self applyColorToPlaceHolderText:txtForeName];
+    [self applyColorToPlaceHolderText:txtSurName];
 }
 
 
@@ -68,7 +71,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)fixButtonImages{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    CGFloat screenWidth = screenRect.size.width;
+    NSLog(@"screen widht %f an hedight %f",screenWidth,screenHeight);
+    
+    btnSelectDate.imageEdgeInsets=UIEdgeInsetsMake(0, screenWidth-70, 0, 0);
+    btnSelectDate.titleEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    
 
+    
+    
+}
 
 - (IBAction)dateOkAction:(id)sender {
     NSString *dateStr = [self getDateString:datePickerView.date withFormat:@"dd/MM/yyyy"];
@@ -107,6 +122,8 @@
         if([self validateFirstnameAndSurName]){
             if([self checkInternetConnection]){
                 [self registerConsumer];
+            }else{
+                 [self showAlertWithTitle:httpNoInternetAlert andMessage:httpConnectionProblemMsg andActionTitle:ok actionHandler:nil];
             }
             
         }
@@ -317,8 +334,9 @@
 
     APIHandler *reqHandler =[[APIHandler alloc] init];
     
-    [self showProgressHudWithText:@"Registering.."];
-    [reqHandler makeRequestByPost:jsonString  serverUrl:httpRegisterConsumer completion:^(NSDictionary *result, NSError *error) {
+    [self showProgressHudWithText:@"Registering..."];
+      NSString *url =  [NSString stringWithFormat:@"%@%@",BaseURL,httpRegisterConsumer];
+    [reqHandler makeRequestByPost:jsonString  serverUrl:url completion:^(NSDictionary *result, NSError *error) {
 
         if ( error == nil) {
             NSLog(@"result -%@",result);

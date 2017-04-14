@@ -19,6 +19,17 @@
 @synthesize gender;
 @synthesize dob;
 @synthesize title;
+@synthesize  address1;
+@synthesize address2;
+@synthesize city;
+@synthesize post_code;
+@synthesize country;
+@synthesize home_phone;
+@synthesize mobile_phone;
+@synthesize alternate_email;
+@synthesize town;
+@synthesize cid;
+
 
 
 -(NSDictionary *)consumerDic:(Consumer *)consumer{

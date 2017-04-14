@@ -7,10 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
-@interface EditProfileViewController : BaseViewController<UITextFieldDelegate>
+@interface EditProfileViewController : BaseViewController<UITextFieldDelegate,UITextViewDelegate>
+{
+    UITextField *activeTextField;
+    
+    NSInteger consumerId;
+    //int cId;
+   
+
+}
 @property (weak, nonatomic) IBOutlet UIButton *titleBtn;
 @property (weak, nonatomic) IBOutlet UITableView *contactDetailsTableView;
+@property (weak, nonatomic) IBOutlet UITextView *foreNameErrorTextView;
 
 
 @property (strong, nonatomic) IBOutlet UIScrollView *editScrollView;
@@ -37,11 +47,8 @@
 
 
 //Strings
-@property(nonatomic,strong)NSString *ctitle;
-@property(nonatomic,strong)NSString *surName;
-@property(nonatomic,strong)NSString *dob;
-@property(nonatomic,strong)NSString *gender;
-@property(nonatomic,assign)int consumerId;
+
+
 @property (weak, nonatomic) IBOutlet UITableView *popUpTableView;
 @property (weak, nonatomic) IBOutlet UILabel *popUpTitleLbl;
 

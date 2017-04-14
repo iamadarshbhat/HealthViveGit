@@ -15,6 +15,14 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
++ (id)sharedManager {
+    static CoreDataManager *coreDataManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        coreDataManager = [[self alloc] init];
+    });
+    return coreDataManager;
+}
 
 
 - (id)init
@@ -80,7 +88,7 @@
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return _managedObjectContext;
@@ -98,6 +106,94 @@
     return _managedObjectModel;
 }
 
+//Returns the list of objects saved in entity.
+-(NSArray*)fetchDataFromEntity:(NSString*)entityName predicate:(NSPredicate*)predicate
+{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    NSArray *dataArray =[[NSArray alloc]init];
+    [fetchRequest setPredicate:predicate];
+    dataArray = [[_managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    return dataArray;
+}
 
+
+//Returns the list of objects saved in entity with order.
+-(NSArray*)fetchDataFromEntity:(NSString*)entityName predicate:(NSPredicate*)predicate sortBy:(NSString *)param
+{
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    NSArray *dataArray =[[NSArray alloc]init];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setSortDescriptors:@[[[NSSortDescriptor alloc] initWithKey:param ascending:YES]]];
+    dataArray = [[_managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    return dataArray;
+}
+
+
+
+
+-(void)saveDetailsToEntity:(NSString *)entityName andValues:(NSDictionary *)valuesToSave{
+    
+    //NSManagedObjectContext *context = _managedObjectContext;
+    NSManagedObject *managedObject = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:_managedObjectContext];
+    
+    for (NSString *key in valuesToSave.allKeys) {
+
+        [managedObject setValue:[valuesToSave valueForKey:key] forKey:key];
+    }
+    [self commitChanges];
+}
+
+-(void)updateDeatailsToEntity:(NSString *)entityName andPredicate:(NSPredicate*)predicate andValues:(NSDictionary *)valuesToSave
+{
+    NSError *error = nil;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    [fetchRequest setPredicate:predicate];
+    
+    NSManagedObject *managedObject = [[_managedObjectContext executeFetchRequest:fetchRequest error:&error]lastObject];
+    
+
+    for (NSString *key in valuesToSave.allKeys) {
+        
+        [managedObject setValue:[valuesToSave valueForKey:key] forKey:key];
+    }
+    
+    if (![_managedObjectContext save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
+   
+   
+}
+
+-(NSManagedObject*)getById :(NSManagedObjectID*) ids{
+    return [_managedObjectContext objectWithID:ids];
+}
+
+
+-(void)update:(NSManagedObject*) object :(NSDictionary *)dict{
+   NSManagedObject *updatingObj =  [self getById:object.objectID];
+    for (NSString *key in dict.allKeys) {
+        [updatingObj setValue:[dict valueForKey:key] forKey:key];
+    }
+    [self commitChanges];
+}
+
+-(void)deleteData:(NSManagedObject*) object{
+    NSManagedObject *deletingObj = [self getById:object.objectID];
+    [_managedObjectContext deleteObject:deletingObj];
+    [self commitChanges];
+}
+
+-(void)commitChanges{
+    NSError *error;
+  
+    if (![_managedObjectContext save:&error]) {
+        // Handle the error.
+        NSLog(@"Error ---- %@",error);
+    }
+   }
 
 @end

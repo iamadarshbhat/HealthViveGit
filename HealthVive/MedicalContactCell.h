@@ -12,5 +12,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *emailOrSpecialityLabel;
 @property (weak, nonatomic) IBOutlet UIView *myContentView;
+@property (weak, nonatomic) IBOutlet UIImageView *inviteImage;
+@property (weak, nonatomic) IBOutlet UIButton *btnInvite;
+@property (weak, nonatomic) IBOutlet UIButton *btnMessage;
 
 @end
